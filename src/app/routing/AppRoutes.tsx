@@ -22,12 +22,12 @@ const AppRoutes: FC = () => {
             <Routes>
                 <Route element={<App />}>
                     <Route path="error/*" element={<ErrorsPage />} />
-                    {!Cookies.get('token') ? (
+                    {Cookies.get('token') ? (
                         <>
                             <Route path="/*" element={<PrivateRoutes />} />
                             <Route
                                 index
-                                element={<Navigate to="/dashboard/esale" />}
+                                element={<Navigate to="/dashboard" />}
                             />
                         </>
                     ) : (

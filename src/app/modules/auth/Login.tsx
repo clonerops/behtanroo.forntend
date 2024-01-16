@@ -2,15 +2,13 @@ import { useFormik } from "formik";
 import { toAbsoluteUrl } from "../../../_cloner/helpers";
 import Inputs from "./components/Inputs";
 import * as Yup from "yup";
-import Captcha from "./components/Captcha";
-import { useGetCaptcha } from "./core/_hooks";
 import { useState } from "react";
 import { loginUser } from "./core/_requests";
 import Cookies from 'js-cookie'
 
 const Login = () => {
     const loginSchema = Yup.object().shape({
-        username: Yup.string()
+        userName: Yup.string()
             .min(3, "تعداد کاراکتر کمتر از 3 مجاز نمی باشد")
             .max(50, "تعداد کاراکتر بیشتر از 50 مجاز نمی باشد")
             .required("نام کاربری الزامی است"),
@@ -18,18 +16,14 @@ const Login = () => {
             .min(3, "تعداد کاراکتر کمتر از 3 مجاز نمی باشد")
             .max(50, "تعداد کاراکتر بیشتر از 50 مجاز نمی باشد")
             .required("رمز عبور الزامی است"),
-        captcha: Yup.string().required("کدامنیتی الزامی است"),
     });
 
     const initialValues = {
-        username: "",
+        userName: "",
         password: "",
-        captcha: "",
     };
 
     const [loading, setLoading] = useState<boolean>(false)
-
-    const { data: captcha, refetch } = useGetCaptcha();
 
     const formik = useFormik({
         initialValues,
@@ -37,22 +31,19 @@ const Login = () => {
         onSubmit: async (values, { setStatus, setSubmitting }) => {
             setLoading(true)
             const userData = {
-                username: values.username,
+                userName: values.userName,
                 password: values.password,
-                captchaToken: captcha.tokenString,
-                captchaCode: values.captcha
             }
             try {
                 const auth = await loginUser(userData);
                 localStorage.setItem("auth", JSON.stringify(auth))
-                Cookies.set("token", `${auth?.jwtToken}`);
+                Cookies.set("token", `${auth?.token}`);
                 setLoading(false)
                 window.location.reload();
             } catch (error) {
                 setStatus("اطلاعات ورود نادرست می باشد");
                 setSubmitting(false);
                 setLoading(false)
-                refetch()
             }
         },
     });
@@ -74,9 +65,9 @@ const Login = () => {
                             type="text"
                             login={true}
                             getFieldProps={formik.getFieldProps}
-                            touched={formik.touched.username}
-                            errors={formik.errors.username}
-                            name={"username"}
+                            touched={formik.touched.userName}
+                            errors={formik.errors.userName}
+                            name={"userName"}
                             title="نام کاربری"
                         ></Inputs>
                     </div>
@@ -89,18 +80,6 @@ const Login = () => {
                             errors={formik.errors.password}
                             name={"password"}
                             title="کلمه عبور"
-                        ></Inputs>
-                    </div>
-                    <div className="w-50">
-                        <Captcha captcha={captcha?.image} refetch={refetch} />
-                        <Inputs
-                            type="text"
-                            login={true}
-                            getFieldProps={formik.getFieldProps}
-                            touched={formik.touched.captcha}
-                            errors={formik.errors.captcha}
-                            name={"captcha"}
-                            title="کد امنیتی"
                         ></Inputs>
                     </div>
                     <div className="d-grid mb-10 w-50">

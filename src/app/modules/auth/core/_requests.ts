@@ -1,7 +1,7 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig";
 
 const loginUser = async (userData: any) => {
-    const { data } = await http.post("/Users/authenticate", JSON.stringify(userData));
+    const { data } = await http.post("/auth/signin", JSON.stringify(userData));
     return data
 };
 
