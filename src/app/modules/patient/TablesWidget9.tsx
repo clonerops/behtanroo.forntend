@@ -1,0 +1,125 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useState } from 'react'
+import { KTSVG } from '../../../_cloner/helpers'
+import { useGetPatients } from './_hooks'
+import { IPatient } from './_models'
+import SubmitReferral from '../../pages/dashboard/SubmitReferral'
+import { Link } from 'react-router-dom'
+
+type Props = {
+  className: string
+  title: string
+  columns: any[]
+}
+
+const TablesWidget9: React.FC<Props> = ({className, title, columns}) => {
+  const patients = useGetPatients()
+  const [open, setIsOpen] = useState<boolean>(false)
+  const [items, setItems] = useState<any>()
+
+  const handleOpenModal = (item: IPatient) => {
+    setItems(item)
+    setIsOpen(true)
+  }
+
+  if(patients.isLoading) {
+    return <div>درحال بارگزاری ...</div>
+  }
+
+  return (
+    <div className={`card ${className}`}>
+      {/* begin::Header */}
+      <div className='card-header border-0 pt-5'>
+        <h3 className='card-title align-items-start flex-column'>
+          <span className='card-label fw-bold fs-3 mb-1'>{title}</span>
+        </h3>
+      </div>
+      {/* end::Header */}
+      {/* begin::Body */}
+      <div className='card-body py-3'>
+        {/* begin::Table container */}
+        <div className='table-responsive'>
+          {/* begin::Table */}
+          <table className='table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4'>
+            {/* begin::Table head */}
+            <thead>
+              <tr className='fw-bold text-muted'>
+                {columns.map((item: {title: string}) => {
+                  return <th className='min-w-150px'>{item.title}</th>
+                })}
+                
+              </tr>
+            </thead>
+            {/* end::Table head */}
+            {/* begin::Table body */}
+            <tbody>
+              {patients.data.map((item: IPatient) => (
+                <tr>
+                  <td>
+                        <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
+                          {item.patientCode}
+                        </a>
+                  </td>
+                  <td>
+                    <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
+                      {item.firstName}
+                    </a>
+                  </td>
+                  <td>
+                    <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                      {item.lastName}
+                    </a>
+                  </td>
+                  <td>
+                  <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                      {item.nationalCode}
+                    </a>
+                  </td>
+                  <td>
+                  <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                      {item.mobile}
+                    </a>
+                  </td>
+                  <td>
+                  <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                      {item.mobile2}
+                    </a>
+                  </td>
+                  <td>
+                  <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                      {item.tel}
+                    </a>
+                  </td>
+                  <td>
+                  <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                      {item.address}
+                    </a>
+                  </td>
+                  <td>
+                    <div className='d-flex gap-x-4 flex-shrink-0'>
+                      <button onClick={() => handleOpenModal(item)} className='bg-violet-500 px-4 py-2 rounded-md text-white'>
+                        ثبت خدمات ارائه شده
+                      </button>
+                      <Link to={`/dashboard/patient/${item.id}/referrals`}>
+                        <button className='bg-green-500 px-4 py-2 rounded-md'>
+                          مراجعات بیمار
+                        </button>
+                      </Link>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            {/* end::Table body */}
+          </table>
+          {/* end::Table */}
+        </div>
+        {/* end::Table container */}
+      </div>
+      <SubmitReferral item={items} isOpen={open} setIsOpen={setIsOpen} />
+      {/* begin::Body */}
+    </div>
+  )
+}
+
+export {TablesWidget9}
