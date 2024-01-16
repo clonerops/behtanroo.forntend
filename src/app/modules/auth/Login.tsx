@@ -118,12 +118,14 @@ const Login = () => {
                                 
                             </label>
                         </div>
-                        <div>
+                        <div className="flex justify-center items-center">
                             <img
                                 src={`${toAbsoluteUrl(
-                                    "/media/logos/demo_7403_none-2.png"
+                                    "/media/logos/640-logowhite.png"
                                 )}`}
                                 alt="background"
+                                width={180}
+                                height={180}
                             />
                         </div>
                     </div>
