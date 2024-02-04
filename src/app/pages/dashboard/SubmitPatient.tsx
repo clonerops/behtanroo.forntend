@@ -5,6 +5,7 @@ import { Form, Formik } from 'formik'
 import Inputs from '../../modules/auth/components/Inputs'
 import Textarea from '../../modules/auth/components/Textarea'
 import { usePostPatient } from '../../modules/patient/_hooks'
+import { toAbsoluteUrl } from '../../../_cloner/helpers'
 
 const initialValues = {
     firstName: "",
@@ -33,7 +34,9 @@ const SubmitPatient = () => {
   return (
     <div>
         <Card6 image='' title='ثبت اطلاعات بیمار'>
-            <Formik initialValues={initialValues} onSubmit={onSubmit}>
+            <div className='grid md:grid-cols-3 grid-cols-1 gap-x-8'>
+                <div className='col-span-2'>
+                    <Formik initialValues={initialValues} onSubmit={onSubmit}>
                 {({handleSubmit, getFieldProps, touched, errors}) => {
                     return <Form className='grid grid-cols-2 gap-x-8'>
                         <Inputs
@@ -114,7 +117,19 @@ const SubmitPatient = () => {
                         </div>
                     </Form>
                 }}
-            </Formik>
+                    </Formik>
+                </div>
+                <div>
+                <div className="flex justify-center items-center">
+                            <img
+                                src={`${toAbsoluteUrl(
+                                    "/media/logos/doctor1.webp"
+                                )}`}
+                                alt="background"
+                            />
+                        </div>
+                </div>
+            </div>
         </Card6>
     </div>
   )

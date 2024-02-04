@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { useState } from "react";
 import { loginUser } from "./core/_requests";
 import Cookies from 'js-cookie'
+import { toast } from "react-toastify";
 
 const Login = () => {
     const loginSchema = Yup.object().shape({
@@ -36,10 +37,15 @@ const Login = () => {
             }
             try {
                 const auth = await loginUser(userData);
-                localStorage.setItem("auth", JSON.stringify(auth))
-                Cookies.set("token", `${auth?.token}`);
-                setLoading(false)
-                window.location.reload();
+                if(auth.status === 400) {
+                    toast.error(auth.data.message)
+                    setLoading(false)
+                } else {
+                    localStorage.setItem("auth", JSON.stringify(auth))
+                    Cookies.set("token", `${auth?.token}`);
+                    setLoading(false)
+                    window.location.reload();
+                }
             } catch (error) {
                 setStatus("اطلاعات ورود نادرست می باشد");
                 setSubmitting(false);
@@ -55,6 +61,16 @@ const Login = () => {
                     onSubmit={formik.handleSubmit}
                     className="flex justify-center items-center flex-col"
                 >
+                        <div className="flex justify-center items-center">
+                            <img
+                                src={`${toAbsoluteUrl(
+                                    "/media/logos/640-logo.png"
+                                )}`}
+                                alt="background"
+                                width={120}
+                                height={120}
+                            />
+                        </div>
                     <div>
                         <label className="text-black text-3xl font-yekan_bold">
                             ورود
@@ -113,15 +129,27 @@ const Login = () => {
                             )})`,
                         }}
                     >
+
                         <div className="flex justify-center items-center">
-                            <label className="text-white font-yekan_bold text-2xl my-8">
-                                
-                            </label>
-                        </div>
-                        <div>
                             <img
                                 src={`${toAbsoluteUrl(
-                                    "/media/logos/demo_7403_none-2.png"
+                                    "/media/logos/640-logowhite.png"
+                                )}`}
+                                alt="background"
+                                width={120}
+                                height={120}
+                            />
+                        </div>
+
+                        <div className="flex justify-center items-center">
+                            <label className="text-white font-yekan_bold text-2xl my-8">
+                                سامانه مدیریت بیماران کلینیک به تن رو      
+                            </label>
+                        </div>
+                        <div className="flex justify-center items-center">
+                            <img
+                                src={`${toAbsoluteUrl(
+                                    "/media/logos/doctor.png"
                                 )}`}
                                 alt="background"
                             />
