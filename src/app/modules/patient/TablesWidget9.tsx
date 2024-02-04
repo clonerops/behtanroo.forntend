@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { KTSVG } from '../../../_cloner/helpers'
 import { useGetPatients } from './_hooks'
 import { IPatient } from './_models'
 import SubmitReferral from '../../pages/dashboard/SubmitReferral'
 import { Link } from 'react-router-dom'
+import FuzzySearch from '../../../_cloner/helpers/Fuse'
 
 type Props = {
   className: string
@@ -12,26 +13,51 @@ type Props = {
   columns: any[]
 }
 
-const TablesWidget9: React.FC<Props> = ({className, title, columns}) => {
+
+
+const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
   const patients = useGetPatients()
   const [open, setIsOpen] = useState<boolean>(false)
   const [items, setItems] = useState<any>()
+  const [results, setResults] = useState<any[]>([]);
+
+  useEffect(() => {
+    setResults(patients?.data)
+  }, [patients?.data])
 
   const handleOpenModal = (item: IPatient) => {
     setItems(item)
     setIsOpen(true)
   }
 
-  if(patients.isLoading) {
+  if (patients.isLoading) {
     return <div>درحال بارگزاری ...</div>
   }
 
   return (
     <div className={`card ${className}`}>
+
       {/* begin::Header */}
+        <div className='m-8 w-[50%] '>
+          <FuzzySearch
+            keys={[
+              "patientCode",
+              "firstName",
+              "lastName",
+              "nationalCode",
+              "mobile",
+              "mobile2",
+              "tel",
+              "address",
+            ]}
+            data={patients.data}
+            setResults={setResults}
+            threshold={0.5}
+          />
+        </div>
       <div className='card-header border-0 pt-5'>
         <h3 className='card-title align-items-start flex-column'>
-          <span className='card-label fw-bold fs-3 mb-1'>{title}</span>
+          <span className='card-label fw-bold fs-3 mb-1 !text-green-500'>{title}</span>
         </h3>
       </div>
       {/* end::Header */}
@@ -44,21 +70,21 @@ const TablesWidget9: React.FC<Props> = ({className, title, columns}) => {
             {/* begin::Table head */}
             <thead>
               <tr className='fw-bold text-muted'>
-                {columns.map((item: {title: string}) => {
+                {columns.map((item: { title: string }) => {
                   return <th className='min-w-150px'>{item.title}</th>
                 })}
-                
+
               </tr>
             </thead>
             {/* end::Table head */}
             {/* begin::Table body */}
             <tbody>
-              {patients.data.map((item: IPatient) => (
+              {results?.map((item: IPatient) => (
                 <tr>
                   <td>
-                        <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
-                          {item.patientCode}
-                        </a>
+                    <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
+                      {item.patientCode}
+                    </a>
                   </td>
                   <td>
                     <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
@@ -71,37 +97,37 @@ const TablesWidget9: React.FC<Props> = ({className, title, columns}) => {
                     </a>
                   </td>
                   <td>
-                  <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                    <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
                       {item.nationalCode}
                     </a>
                   </td>
                   <td>
-                  <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                    <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
                       {item.mobile}
                     </a>
                   </td>
                   <td>
-                  <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                    <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
                       {item.mobile2}
                     </a>
                   </td>
                   <td>
-                  <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                    <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
                       {item.tel}
                     </a>
                   </td>
                   <td>
-                  <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                    <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
                       {item.address}
                     </a>
                   </td>
-                  <td>
-                    <div className='d-flex gap-x-4 flex-shrink-0'>
-                      <button onClick={() => handleOpenModal(item)} className='bg-violet-500 px-4 py-2 rounded-md text-white'>
-                        ثبت خدمات ارائه شده
+                  <td className='!w-full'>
+                    <div className='d-flex gap-x-4 flex-shrink-0 '>
+                      <button onClick={() => handleOpenModal(item)} className='!w-full bg-violet-500 px-4 py-2 rounded-md text-white'>
+                        <span className='!w-full'>ثبت خدمات ارائه شده</span>
                       </button>
                       <Link to={`/dashboard/patient/${item.id}/referrals`}>
-                        <button className='bg-green-500 px-4 py-2 rounded-md'>
+                        <button className='bg-green-500 px-4 py-2 rounded-md !w-full'>
                           مراجعات بیمار
                         </button>
                       </Link>
@@ -122,4 +148,4 @@ const TablesWidget9: React.FC<Props> = ({className, title, columns}) => {
   )
 }
 
-export {TablesWidget9}
+export { TablesWidget9 }

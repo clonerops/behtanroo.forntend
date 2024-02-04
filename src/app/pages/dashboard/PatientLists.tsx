@@ -1,3 +1,4 @@
+import FuzzySearch from "../../../_cloner/helpers/Fuse"
 import { TablesWidget9 } from "../../modules/patient/TablesWidget9"
 
 const columns = [
@@ -15,6 +16,7 @@ const columns = [
 const PatientLists = () => {
   return (
     <div>
+
         <TablesWidget9 className="" title="لیست بیماران" columns={columns} />
     </div>
   )

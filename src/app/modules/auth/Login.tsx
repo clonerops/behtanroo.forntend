@@ -152,6 +152,8 @@ const Login = () => {
                                     "/media/logos/doctor.png"
                                 )}`}
                                 alt="background"
+                                width={180}
+                                height={180}
                             />
                         </div>
                     </div>
