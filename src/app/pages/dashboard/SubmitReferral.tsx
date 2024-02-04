@@ -5,6 +5,7 @@ import Textarea from "../../modules/auth/components/Textarea";
 import { IPatient } from "../../modules/patient/_models";
 import { Form, Formik } from "formik";
 import { usePostReferral } from "../../modules/patient/_hooks";
+import { toast } from "react-toastify";
 
 const initialValues = {
     referralDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
@@ -25,14 +26,18 @@ const SubmitReferral = (props: Props) => {
     const onSubmit = async (values: any) => {
         const formData = {
             ...values,
-            patient: props.item.id,
+            patientId: props.item.id,
             referralDate: new Date(Date.now())
         }
         try {
             postReferral.mutate(formData, {
                 onSuccess: (response) => {
-                    props.setIsOpen(false)
-                    console.log(response)
+                    if(response.status === 400) {
+                        toast.error(response.data.message)
+                    } else {
+                        toast.success("ثبت اطلاعات موفقیت امیز بود")
+                        props.setIsOpen(false)
+                    }
                 }
             })
         } catch (error) {

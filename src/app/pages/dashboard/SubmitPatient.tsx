@@ -6,6 +6,7 @@ import Inputs from '../../modules/auth/components/Inputs'
 import Textarea from '../../modules/auth/components/Textarea'
 import { usePostPatient } from '../../modules/patient/_hooks'
 import { toAbsoluteUrl } from '../../../_cloner/helpers'
+import { toast } from 'react-toastify'
 
 const initialValues = {
     firstName: "",
@@ -24,6 +25,11 @@ const SubmitPatient = () => {
             postPatient.mutate(values, {
                 onSuccess: (response) => {
                     console.log(response)
+                    if(response.status ===400) {
+                        toast.error(response.data.message)
+                    } else {
+                        toast.success("بیمار جدید با موفقیت ثبت گردید")
+                    }
                 }
             })
         } catch (error) {

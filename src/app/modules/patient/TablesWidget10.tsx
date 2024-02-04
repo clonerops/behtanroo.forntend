@@ -51,7 +51,7 @@ const TablesWidget10: React.FC<Props> = ({className, title, columns}) => {
             {/* end::Table head */}
             {/* begin::Table body */}
             <tbody>
-              {patientsReferrals?.data?.referral?.map((item: IReferral) => (
+              {patientsReferrals?.data?.referrals?.map((item: IReferral) => (
                 <tr>
                   <td>
                         <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
