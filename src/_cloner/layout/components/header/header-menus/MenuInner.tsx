@@ -5,7 +5,7 @@ import {MenuItem} from './MenuItem'
 export function MenuInner() {
   return (
     <>
-      <MenuItem title="کلینیک زیبایی به تن رو" to='/dashboard' />
+      <MenuItem title="سامانه مدیریت بیماران کلینیک به تن رو" to='/dashboard' />
     </>
   )
 }

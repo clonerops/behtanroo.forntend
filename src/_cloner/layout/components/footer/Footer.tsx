@@ -18,7 +18,7 @@ const Footer = () => {
           target='_blank'
           className='text-gray-800 text-hover-primary'
         >
-          کلینیک زیبایی به تن رو
+          سامانه مدیریت بیماران کلینیک به تن رو      
         </a>
       </div>
 
