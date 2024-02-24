@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { IPatient, IReferral } from "./_models"
+import { IPatient, IPatientDocument, IReferral } from "./_models"
 
 import * as api from './_requests'
 
@@ -31,4 +31,13 @@ export const useGetReferral = (id: string) => {
 }
 export const useGetReferralByPatient = (id: string) => {
     return useQuery(['referralByPatient', id], () => api.getReferralByPatient(id))
+}
+export const useGetDocuments = () => {
+    return useQuery(['documents'], () => api.getDocuments())
+}
+
+export const usePostPatientDocument = () => {
+    return useMutation((formData: IPatientDocument) => {
+        return api.postPatientDocument(formData)
+    })
 }

@@ -22,8 +22,6 @@ const TablesWidget10: React.FC<Props> = ({className, title, columns}) => {
     return <div>درحال بارگزاری ...</div>
   }
 
-  console.log("patientsReferrals", patientsReferrals?.data)
-
   return (
     <div className={`card ${className}`}>
       {/* begin::Header */}

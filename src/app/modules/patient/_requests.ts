@@ -1,5 +1,5 @@
 import { http } from "../../../_cloner/helpers/axiosConfig";
-import { IPatient, IReferral } from "./_models";
+import { IPatient, IPatientDocument, IReferral } from "./_models";
 
 export const postPatient = async (formData: IPatient) => {
     try {
@@ -49,4 +49,17 @@ export const getReferralByPatient = async (id: string) => {
     return data
 }
 
+export const getDocuments = async () => {
+    const {data} = await http.get(`/document`);
+    return data
+}
+export const postPatientDocument = async (formData: IPatientDocument ) => {
+    try {
+        const {data} = await http.post('/patientdocument', JSON.stringify(formData))
+        return data        
+    } catch (error) {
+        if(error instanceof Error)
+            return error
+    }
+}
 

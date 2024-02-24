@@ -1,5 +1,5 @@
 export interface IPatient {
-    id?: string
+    id?: number
     patientCode?: number,
     firstName: string
     lastName: string
@@ -16,4 +16,16 @@ export interface IReferral {
     referralReason: string
     description: string
     patient: string
+}
+
+export interface IDocument {
+    id: number
+    title: string
+}
+
+export interface IPatientDocument {
+    id?: number
+    patientId?: number
+    documentId?: number
+    description: string
 }

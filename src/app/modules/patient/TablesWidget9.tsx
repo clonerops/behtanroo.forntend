@@ -6,6 +6,7 @@ import { IPatient } from './_models'
 import SubmitReferral from '../../pages/dashboard/SubmitReferral'
 import { Link } from 'react-router-dom'
 import FuzzySearch from '../../../_cloner/helpers/Fuse'
+import SubmitDocument from '../../pages/dashboard/SubmitDocument'
 
 type Props = {
   className: string
@@ -124,6 +125,13 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
                   <td className='!w-full'>
                     <div className='d-flex gap-x-4 flex-shrink-0 '>
                       <button onClick={() => handleOpenModal(item)} className='!w-full bg-violet-500 px-4 py-2 rounded-md text-white'>
+                        <span className='!w-full'>ایجاد پرونده</span>
+                      </button>
+                    </div>
+                  </td>
+                  {/* <td className='!w-full'>
+                    <div className='d-flex gap-x-4 flex-shrink-0 '>
+                      <button onClick={() => handleOpenModal(item)} className='!w-full bg-violet-500 px-4 py-2 rounded-md text-white'>
                         <span className='!w-full'>ثبت خدمات ارائه شده</span>
                       </button>
                       <Link to={`/dashboard/patient/${item.id}/referrals`}>
@@ -132,7 +140,7 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
                         </button>
                       </Link>
                     </div>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>
@@ -142,7 +150,7 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
         </div>
         {/* end::Table container */}
       </div>
-      <SubmitReferral item={items} isOpen={open} setIsOpen={setIsOpen} />
+      <SubmitDocument item={items} isOpen={open} setIsOpen={setIsOpen} />
       {/* begin::Body */}
     </div>
   )
