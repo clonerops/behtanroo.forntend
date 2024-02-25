@@ -2,7 +2,7 @@ import moment from "moment-jalaali";
 import Modal from "../../../_cloner/helpers/components/Modal";
 import Inputs from "../../modules/auth/components/Inputs";
 import Textarea from "../../modules/auth/components/Textarea";
-import { IPatient } from "../../modules/patient/_models";
+import { IPatient, IPatientDocument } from "../../modules/patient/_models";
 import { Form, Formik } from "formik";
 import { usePostReferral } from "../../modules/patient/_hooks";
 import { toast } from "react-toastify";
@@ -16,7 +16,7 @@ const initialValues = {
 type Props = {
     isOpen: boolean;
     setIsOpen: any;
-    item: IPatient;
+    item: IPatientDocument;
 };
 
 const SubmitReferral = (props: Props) => {
@@ -26,7 +26,8 @@ const SubmitReferral = (props: Props) => {
     const onSubmit = async (values: any) => {
         const formData = {
             ...values,
-            patientId: props.item.id,
+            patientId: props.item.patient?.id,
+            documentId: props.item.document?.id,
             referralDate: new Date(Date.now())
         }
         try {
@@ -51,15 +52,15 @@ const SubmitReferral = (props: Props) => {
             <div className="flex flex-row justify-around">
                 <div className="flex flex-row m-16">
                         <div className="font-bold text-xl text-gray-500">شماره بیمار: </div>
-                        <div className="px-8 font-bold text-2xl">{props?.item?.patientCode}</div>
+                        <div className="px-8 font-bold text-2xl">{props?.item?.patient?.patientCode}</div>
                 </div>
                 <div className="flex flex-row m-16">
                         <div className="font-bold text-xl text-gray-500">نام و نام خانوادگی: </div>
-                        <div className="px-8 font-bold text-2xl">{props?.item?.firstName} {props?.item?.lastName}</div>
+                        <div className="px-8 font-bold text-2xl">{props?.item?.patient?.firstName} {props?.item?.patient?.lastName}</div>
                 </div>
                 <div className="flex flex-row m-16">
                         <div className="font-bold text-xl text-gray-500">کدملی: </div>
-                        <div className="px-8 font-bold text-2xl">{props?.item?.nationalCode}</div>
+                        <div className="px-8 font-bold text-2xl">{props?.item?.patient?.nationalCode}</div>
                 </div>
             </div>
             <Formik initialValues={initialValues} onSubmit={onSubmit}>

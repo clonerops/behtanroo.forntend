@@ -20,6 +20,12 @@ const SidebarMenuMain = () => {
         title={'لیست بیماران'}
         fontIcon='bi-app-indicator'
       />
+      <SidebarMenuItem
+        to='/dashboard/documents'
+        icon='/media/icons/duotune/art/art002.svg'
+        title={'لیست پرونده ها'}
+        fontIcon='bi-app-indicator'
+      />
       {/* <SidebarMenuItem
         to='/builder'
         icon='/media/icons/duotune/general/gen019.svg'

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react'
 import { KTSVG } from '../../../_cloner/helpers'
-import { useGetPatients, useGetReferralByPatient } from './_hooks'
+import { useGetPatients, useGetReferralByPatient, useGetReferralByPatientAndDocument } from './_hooks'
 import { IPatient, IReferral } from './_models'
 import SubmitReferral from '../../pages/dashboard/SubmitReferral'
 import { Link, useParams } from 'react-router-dom'
@@ -14,8 +14,8 @@ type Props = {
 }
 
 const TablesWidget10: React.FC<Props> = ({className, title, columns}) => {
-  const {id}: any = useParams()
-  const patientsReferrals = useGetReferralByPatient(id)
+  const {patientId, documentId}: any = useParams()
+  const patientsReferrals = useGetReferralByPatientAndDocument(patientId, documentId)
 
 
   if(patientsReferrals.isLoading) {
@@ -49,7 +49,7 @@ const TablesWidget10: React.FC<Props> = ({className, title, columns}) => {
             {/* end::Table head */}
             {/* begin::Table body */}
             <tbody>
-              {patientsReferrals?.data?.referrals?.map((item: IReferral) => (
+              {patientsReferrals?.data?.map((item: IReferral) => (
                 <tr>
                   <td>
                         <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>

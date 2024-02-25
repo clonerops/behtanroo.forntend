@@ -27,5 +27,8 @@ export interface IPatientDocument {
     id?: number
     patientId?: number
     documentId?: number
+    documentCode?: number
     description: string
+    patient?: IPatient
+    document?: IDocument
 }

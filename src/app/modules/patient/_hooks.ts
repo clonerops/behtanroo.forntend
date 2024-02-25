@@ -32,6 +32,9 @@ export const useGetReferral = (id: string) => {
 export const useGetReferralByPatient = (id: string) => {
     return useQuery(['referralByPatient', id], () => api.getReferralByPatient(id))
 }
+export const useGetReferralByPatientAndDocument = (patientId: number, documentId: number) => {
+    return useQuery(['referralByPatientAndDocument', patientId, documentId], () => api.getReferralByPatientAndDocument(patientId, documentId))
+}
 export const useGetDocuments = () => {
     return useQuery(['documents'], () => api.getDocuments())
 }
@@ -40,4 +43,8 @@ export const usePostPatientDocument = () => {
     return useMutation((formData: IPatientDocument) => {
         return api.postPatientDocument(formData)
     })
+}
+
+export const useGetPatientDocuments = () => {
+    return useQuery(['patientDocuments'], () => api.getPatientDocuments())
 }

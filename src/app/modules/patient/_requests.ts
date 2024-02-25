@@ -49,6 +49,12 @@ export const getReferralByPatient = async (id: string) => {
     return data
 }
 
+export const getReferralByPatientAndDocument = async (patientId: number, documentId: number) => {
+    const {data} = await http.get(`/referral/patient/${patientId}/document/${documentId}`);
+    return data
+}
+
+
 export const getDocuments = async () => {
     const {data} = await http.get(`/document`);
     return data
@@ -63,3 +69,7 @@ export const postPatientDocument = async (formData: IPatientDocument ) => {
     }
 }
 
+export const getPatientDocuments = async () => {
+    const {data} = await http.get(`/patientdocument`);
+    return data
+}
