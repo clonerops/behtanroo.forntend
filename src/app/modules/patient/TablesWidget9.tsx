@@ -1,12 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from 'react'
-import { KTSVG } from '../../../_cloner/helpers'
+import React, { useEffect, useRef, useState } from 'react'
+import { KTSVG, toAbsoluteUrl } from '../../../_cloner/helpers'
 import { useGetPatients } from './_hooks'
 import { IPatient } from './_models'
 import SubmitReferral from '../../pages/dashboard/SubmitReferral'
 import { Link } from 'react-router-dom'
 import FuzzySearch from '../../../_cloner/helpers/Fuse'
 import SubmitDocument from '../../pages/dashboard/SubmitDocument'
+import { useReactToPrint } from 'react-to-print'
+import PatientFormPrint from '../../pages/dashboard/PatientFormPrint'
 
 type Props = {
   className: string
@@ -21,6 +23,7 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
   const [open, setIsOpen] = useState<boolean>(false)
   const [items, setItems] = useState<any>()
   const [results, setResults] = useState<any[]>([]);
+
 
   useEffect(() => {
     setResults(patients?.data)
@@ -128,7 +131,10 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
                     </a>
                   </td>
                   <td className='!w-full'>
-                    <div className='d-flex gap-x-4 flex-shrink-0 '>
+                    <div className='flex justify-center items-center gap-x-4 flex-shrink-0 '>
+                      <Link to={`/dashboard/patientFormPrint/${item.id}`} className=''>
+                      <img className="!bg-white" src={toAbsoluteUrl('/media/icons/duotune/general/gen008.svg')} />
+                      </Link>
                       <button onClick={() => handleOpenModal(item)} className='!w-full bg-violet-500 px-4 py-2 rounded-md text-white'>
                         <span className='!w-full'>ایجاد پرونده</span>
                       </button>
@@ -157,6 +163,9 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
       </div>
       <SubmitDocument item={items} isOpen={open} setIsOpen={setIsOpen} />
       {/* begin::Body */}
+      <div style={{display: "none"}}>
+        <PatientFormPrint />
+      </div>
     </div>
   )
 }
