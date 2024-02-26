@@ -1,4 +1,5 @@
-import { http } from "../../../_cloner/helpers/axiosConfig";
+import { DownloadExeclFile } from "../../../_cloner/helpers/DownloadFiles";
+import { http, httpFormData } from "../../../_cloner/helpers/axiosConfig";
 import { IPatient, IPatientDocument, IReferral } from "./_models";
 
 export const postPatient = async (formData: IPatient) => {
@@ -20,7 +21,11 @@ export const getPatient = async (id: string) => {
     return data
 }
 
-
+export const downloadExcelPatiets = async () => {
+    const {data} = await httpFormData.get(`/patient/exportExcel`);
+    DownloadExeclFile(data, "patient.xlsx")
+    return data
+}
 
 
 // Referral

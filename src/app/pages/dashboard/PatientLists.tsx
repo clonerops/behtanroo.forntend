@@ -17,7 +17,6 @@ const columns = [
 const PatientLists = () => {
   return (
     <div>
-
         <TablesWidget9 className="" title="لیست بیماران" columns={columns} />
     </div>
   )

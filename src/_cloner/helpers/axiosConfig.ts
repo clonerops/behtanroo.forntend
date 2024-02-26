@@ -18,5 +18,14 @@ export const http = axios.create({
         Authorization: `Bearer ${Cookies.get("token")}`,
     },
 });
+export const httpFormData = axios.create({
+    baseURL: "http://localhost:5000/api/",
+    responseType: 'arraybuffer',
+    // baseURL: "https://behtanroo.ir/api/",
+    headers: {
+        "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        Authorization: `Bearer ${Cookies.get("token")}`,
+    },
+});
 
 

@@ -16,6 +16,12 @@ export const useGetPatient = (id: string) => {
     return useQuery(['patient', id], () => api.getPatient(id))
 }
 
+export const useDownloadExportExcel = () => {
+    return useMutation(() => {
+        return api.downloadExcelPatiets()
+    })
+}
+
 //Referrals
 export const usePostReferral = () => {
     return useMutation((formData: IReferral) => {
