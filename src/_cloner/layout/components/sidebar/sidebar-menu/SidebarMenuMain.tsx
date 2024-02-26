@@ -2,7 +2,8 @@
 // import React from 'react'
 // import {KTSVG} from '../../../../helpers'
 // import {SidebarMenuItemWithSub} from './SidebarMenuItemWithSub'
-import {SidebarMenuItem} from './SidebarMenuItem'
+import { SidebarMenuItem } from './SidebarMenuItem'
+import { SidebarMenuItemWithSub } from './SidebarMenuItemWithSub'
 
 const SidebarMenuMain = () => {
 
@@ -26,6 +27,16 @@ const SidebarMenuMain = () => {
         title={'لیست پرونده ها'}
         fontIcon='bi-app-indicator'
       />
+      <SidebarMenuItemWithSub
+        to='/crafted/pages'
+        title='گزارشات'
+        fontIcon='bi-archive'
+        icon='/media/icons/duotune/general/gen022.svg'
+      >
+          <SidebarMenuItem to='/crafted/pages/profile/overview' title='گزارش بیماران' hasBullet={true} />
+      </SidebarMenuItemWithSub>
+
+
       {/* <SidebarMenuItem
         to='/builder'
         icon='/media/icons/duotune/general/gen019.svg'
@@ -140,4 +151,4 @@ const SidebarMenuMain = () => {
   )
 }
 
-export {SidebarMenuMain}
+export { SidebarMenuMain }

@@ -21,6 +21,7 @@ const PrivateRoutes = () => {
         <Route path='dashboard/patient/:patientId/document/:documentId' element={<Referrals />} />
         <Route path='dashboard/documents' element={<DocumentList />} />
         <Route path='dashboard/patientFormPrint/:id' element={<PatientFormPrint />} />
+        <Route path='dashboard/' element={<PatientFormPrint />} />
         {/* Lazy Modules */}
         {/* Page Not Found */}
         <Route path='*' element={<Navigate to='/error/404' />} />
