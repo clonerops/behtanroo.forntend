@@ -16,7 +16,7 @@ const PrivateRoutes = () => {
         {/* Pages */}
         <Route path='dashboard' element={<Dashboard />} />
         <Route path='dashboard/patient' element={<SubmitPatient />} />
-        <Route path='dashboard/patient/lists' element={<PatientLists />} />
+        <Route path='dashboard/patientList' element={<PatientLists />} />
         <Route path='dashboard/patient/:patientId/document/:documentId' element={<Referrals />} />
         <Route path='dashboard/documents' element={<DocumentList />} />
         {/* Lazy Modules */}

@@ -4,6 +4,7 @@ export interface IPatient {
     firstName: string
     lastName: string
     nationalCode: string
+    gender: number
     mobile: string
     mobile2: string
     tel: string

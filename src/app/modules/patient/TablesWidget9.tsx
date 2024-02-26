@@ -99,6 +99,11 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
                   </td>
                   <td>
                     <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                      {item.gender === 1 ? " مرد " : "زن"}
+                    </a>
+                  </td>
+                  <td>
+                    <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
                       {item.nationalCode}
                     </a>
                   </td>

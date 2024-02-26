@@ -15,14 +15,14 @@ const SidebarMenuMain = () => {
         fontIcon='bi-app-indicator'
       />
       <SidebarMenuItem
-        to='/dashboard/patient/lists'
-        icon='/media/icons/duotune/art/art002.svg'
+        to='/dashboard/patientList'
+        icon='/media/icons/duotune/art/art001.svg'
         title={'لیست بیماران'}
         fontIcon='bi-app-indicator'
       />
       <SidebarMenuItem
         to='/dashboard/documents'
-        icon='/media/icons/duotune/art/art002.svg'
+        icon='/media/icons/duotune/art/art003.svg'
         title={'لیست پرونده ها'}
         fontIcon='bi-app-indicator'
       />
