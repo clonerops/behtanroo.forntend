@@ -39,19 +39,19 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
     <div className={`card ${className}`}>
 
       {/* begin::Header */}
-        <div className='m-8 w-[50%] '>
-          <FuzzySearch
-            keys={[
-              "documentCode",
-              "patient.patientCode",
-              "patient.firstName",
-              "patient.lastName",
-              "document.title",
-            ]}
-            data={patients?.data?.data}
-            setResults={setResults}
-          />
-        </div>
+      <div className='m-8 w-[50%] '>
+        <FuzzySearch
+          keys={[
+            "documentCode",
+            "patient.patientCode",
+            "patient.firstName",
+            "patient.lastName",
+            "document.title",
+          ]}
+          data={patients?.data?.data}
+          setResults={setResults}
+        />
+      </div>
       <div className='card-header border-0 pt-5'>
         <h3 className='card-title align-items-start flex-column'>
           <span className='card-label fw-bold fs-3 mb-1 !text-green-500'>{title}</span>
@@ -104,15 +104,15 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
                     </a>
                   </td>
                   <td className='!w-full'>
+                    <div className='d-flex gap-x-4 flex-shrink-0 items-center '>
                       <Link to={`/dashboard/patientFormPrint/${item.patient?.id}`} className=''>
-                        <img className="!bg-white" src={toAbsoluteUrl('/media/logos/print-icon.png')} width={42} height={42} />
+                        <img className="!bg-white" src={toAbsoluteUrl('/media/logos/print-icon.png')} width={24} height={24} />
                       </Link>
-                    <div className='d-flex gap-x-4 flex-shrink-0 '>
-                      <button onClick={() => handleOpenModal(item)} className='!w-full bg-violet-500 px-4 py-2 rounded-md text-white'>
-                        <span className='!w-full'>ثبت خدمات ارائه شده</span>
+                      <button onClick={() => handleOpenModal(item)} className='bg-violet-500 px-4 py-2 rounded-md text-white'>
+                        <span>ثبت مراجعات</span>
                       </button>
                       <Link to={`/dashboard/patient/${item.patient?.id}/document/${item.document?.id}`}>
-                        <button className='bg-green-500 px-4 py-2 rounded-md !w-full'>
+                        <button className='bg-green-500 px-4 py-2 rounded-md'>
                           مراجعات بیمار
                         </button>
                       </Link>

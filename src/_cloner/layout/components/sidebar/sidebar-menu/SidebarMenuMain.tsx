@@ -33,7 +33,7 @@ const SidebarMenuMain = () => {
         fontIcon='bi-archive'
         icon='/media/icons/duotune/general/gen022.svg'
       >
-          <SidebarMenuItem to='/crafted/pages/profile/overview' title='گزارش بیماران' hasBullet={true} />
+          <SidebarMenuItem to='/dashboard/patientReport' title='گزارش بیماران' hasBullet={true} />
       </SidebarMenuItemWithSub>
 
 
