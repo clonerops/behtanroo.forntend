@@ -143,9 +143,6 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
                   </td>
                   <td className='!w-full'>
                     <div className='flex justify-center items-center gap-x-4 flex-shrink-0 '>
-                      <Link to={`/dashboard/patientFormPrint/${item.id}`} className=''>
-                        <img className="!bg-white" src={toAbsoluteUrl('/media/logos/print-icon.png')} width={42} height={42} />
-                      </Link>
                       <button onClick={() => handleOpenModal(item)} className='!w-full bg-violet-500 px-4 py-2 rounded-md text-white'>
                         <span className='!w-full'>ایجاد پرونده</span>
                       </button>

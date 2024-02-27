@@ -54,3 +54,6 @@ export const usePostPatientDocument = () => {
 export const useGetPatientDocuments = () => {
     return useQuery(['patientDocuments'], () => api.getPatientDocuments())
 }
+export const useGetPatientDocumentById = (id: number) => {
+    return useQuery(['patientDocument', id], () => api.getPatientDocumentById(id))
+}

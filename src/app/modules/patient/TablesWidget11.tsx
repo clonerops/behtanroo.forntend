@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react'
-import { KTSVG } from '../../../_cloner/helpers'
+import { KTSVG, toAbsoluteUrl } from '../../../_cloner/helpers'
 import { useGetPatientDocuments, useGetPatients } from './_hooks'
 import { IPatient, IPatientDocument } from './_models'
 import SubmitReferral from '../../pages/dashboard/SubmitReferral'
@@ -104,6 +104,9 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
                     </a>
                   </td>
                   <td className='!w-full'>
+                      <Link to={`/dashboard/patientFormPrint/${item.patient?.id}`} className=''>
+                        <img className="!bg-white" src={toAbsoluteUrl('/media/logos/print-icon.png')} width={42} height={42} />
+                      </Link>
                     <div className='d-flex gap-x-4 flex-shrink-0 '>
                       <button onClick={() => handleOpenModal(item)} className='!w-full bg-violet-500 px-4 py-2 rounded-md text-white'>
                         <span className='!w-full'>ثبت خدمات ارائه شده</span>

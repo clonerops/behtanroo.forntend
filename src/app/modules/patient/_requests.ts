@@ -78,3 +78,8 @@ export const getPatientDocuments = async () => {
     const {data} = await http.get(`/patientdocument`);
     return data
 }
+
+export const getPatientDocumentById = async (id: number) => {
+    const {data} = await http.get(`/patientdocument/${id}`);
+    return data
+}
