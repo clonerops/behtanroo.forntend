@@ -7,6 +7,7 @@ import { toAbsoluteUrl } from "../../../_cloner/helpers";
 import { toast } from "react-toastify";
 import Select from "../../modules/auth/components/Select";
 import { createPatientValidations } from "../../modules/patient/_validation";
+import Backdrop from "../../../_cloner/helpers/components/Backdrop";
 
 const initialValues = {
     firstName: "",
@@ -41,6 +42,7 @@ const SubmitPatient = () => {
 
     return (
         <div>
+            {postPatient.isLoading && <Backdrop loading={postPatient.isLoading} />}
             <Card6 image="" title="ثبت اطلاعات بیمار">
                 <div className="grid md:grid-cols-3 grid-cols-1 gap-x-8">
                     <div className="col-span-2">

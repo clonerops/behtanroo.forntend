@@ -9,6 +9,7 @@ import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import moment from 'moment-jalaali'
 import { useDownloadExportExcelPatientReport, useGetPatientReport } from './_hooks'
+import Backdrop from '../../../_cloner/helpers/components/Backdrop'
 
 const columns = [
   { id: 8, title: "شماره بیمار" },
@@ -56,7 +57,7 @@ const PatientReport = () => {
 
   return (
     <>
-    {patients.isLoading && <div>درحال بارگزاری ...</div> }
+      {patients.isLoading &&<Backdrop loading={patients.isLoading} /> }
       <div className={`card`}>
         <div className='container'>
           <Formik initialValues={initialValues} onSubmit={onSubmit}>

@@ -6,6 +6,7 @@ import { Form, Formik } from 'formik'
 import Select from '../auth/components/Select'
 import { useDownloadExportExcelPatientReportByReferral, useGetPatientReportByReferral } from './_hooks'
 import Inputs from '../auth/components/Inputs'
+import Backdrop from '../../../_cloner/helpers/components/Backdrop'
 
 const columns = [
   { id: 8, title: "شماره بیمار" },
@@ -53,7 +54,7 @@ const PatientReportByReferral = () => {
 
   return (
     <>
-    {patients.isLoading && <div>درحال بارگزاری ...</div> }
+      {patients.isLoading &&<Backdrop loading={patients.isLoading} /> }
       <div className={`card`}>
         <div className='container'>
           <Formik initialValues={initialValues} onSubmit={onSubmit}>
@@ -78,7 +79,6 @@ const PatientReportByReferral = () => {
                       touched={touched.fromCount}
                       errors={errors.fromCount}
                       name={"fromCount"}
-                      disabled
                       title="تعداد مراجعه از"
                     ></Inputs>
                   </div>
@@ -90,7 +90,6 @@ const PatientReportByReferral = () => {
                         touched={touched.toCount}
                         errors={errors.toCount}
                         name={"toCount"}
-                        disabled
                         title="تا"
                       ></Inputs>
                   </div>
