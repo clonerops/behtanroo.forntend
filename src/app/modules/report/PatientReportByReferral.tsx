@@ -1,14 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from 'react'
-import { useDownloadExportExcel, useGetDocuments, useGetPatients } from '../patient/_hooks'
+import { useEffect } from 'react'
+import {  useGetDocuments } from '../patient/_hooks'
 import { IPatient } from '../patient/_models'
 import { Form, Formik } from 'formik'
 import Select from '../auth/components/Select'
-import MultiDatepicker, { DateObject } from "react-multi-date-picker";
-import persian from "react-date-object/calendars/persian";
-import persian_fa from "react-date-object/locales/persian_fa";
-import moment from 'moment-jalaali'
-import { useDownloadExportExcelPatientReport, useGetPatientReport } from './_hooks'
+import { useDownloadExportExcelPatientReportByReferral, useGetPatientReportByReferral } from './_hooks'
+import Inputs from '../auth/components/Inputs'
 
 const columns = [
   { id: 8, title: "شماره بیمار" },
@@ -24,23 +21,23 @@ const columns = [
 
 const initialValues = {
   documentId: "1",
-  fromDate: moment(new Date(Date.now())).subtract(10, 'days').format('jYYYY/jMM/jDD'),
-  toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD')
+  fromCount: "1",
+  toCount: "10"
 }
 
-const PatientReport = () => {
-  const patients = useGetPatientReport()
+const PatientReportByReferral = () => {
+  const patients = useGetPatientReportByReferral()
   const documents = useGetDocuments()
   
 
-  const downloadExcel = useDownloadExportExcelPatientReport()
+  const downloadExcel = useDownloadExportExcelPatientReportByReferral()
 
 
   useEffect(() => {
     const formData = {
       documentId: "1",
-      fromDate: moment(new Date(Date.now())).subtract(10, 'days').format('jYYYY/jMM/jDD'),
-      toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD')
+      fromCount: "1",
+      toCount: "10"
     }
     patients.mutate(formData)
   }, [])
@@ -74,38 +71,28 @@ const PatientReport = () => {
                     title="نوع پرونده"
                   ></Select>
                   <div className='flex flex-col'>
-                    <label className="form-label fs-6 fw-bolder text-dark">
-                      از تاریخ
-                    </label>
-                    <MultiDatepicker
-                      {...getFieldProps("fromDate")}
-                      id="fromDate"
-                      name='fromDate'
-                      locale={persian_fa}
-                      calendar={persian}
-                      value={values.fromDate}
-                      onChange={(date: DateObject | DateObject[] | null) => setFieldValue('fromDate', date)}
-                      render={
-                        <input className='form-control bg-transparent' />
-                      }
-                    />
+                    <Inputs
+                      type="text"
+                      login={true}
+                      getFieldProps={getFieldProps}
+                      touched={touched.fromCount}
+                      errors={errors.fromCount}
+                      name={"fromCount"}
+                      disabled
+                      title="تعداد مراجعه از"
+                    ></Inputs>
                   </div>
                   <div className='flex flex-col'>
-                    <label className="form-label fs-6 fw-bolder text-dark">
-                      از تاریخ
-                    </label>
-                    <MultiDatepicker
-                      {...getFieldProps("toDate")}
-                      id="toDate"
-                      name='toDate'
-                      locale={persian_fa}
-                      calendar={persian}
-                      value={values.toDate}
-                      onChange={(date: DateObject | DateObject[] | null) => setFieldValue('toDate', date)}
-                      render={
-                        <input className='form-control bg-transparent' />
-                      }
-                    />
+                    <Inputs
+                        type="text"
+                        login={true}
+                        getFieldProps={getFieldProps}
+                        touched={touched.toCount}
+                        errors={errors.toCount}
+                        name={"toCount"}
+                        disabled
+                        title="تا"
+                      ></Inputs>
                   </div>
 
                 </div>
@@ -201,4 +188,4 @@ const PatientReport = () => {
   )
 }
 
-export default PatientReport 
+export default PatientReportByReferral 

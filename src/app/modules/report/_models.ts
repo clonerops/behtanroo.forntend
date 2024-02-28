@@ -3,3 +3,8 @@ export interface IPatientReport {
     fromDate: string
     toDate: string
 }
+export interface IPatientReportByReferral {
+    documentId: string
+    fromCount: string
+    toCount: string
+}

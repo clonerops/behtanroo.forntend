@@ -7,6 +7,7 @@ import Referrals from '../pages/dashboard/Referrals'
 import DocumentList from '../pages/dashboard/DocumentList'
 import PatientFormPrint from '../pages/dashboard/PatientFormPrint'
 import PatientReport from '../modules/report/PatientReport'
+import PatientReportByReferral from '../modules/report/PatientReportByReferral'
 
 const PrivateRoutes = () => {
 
@@ -23,6 +24,7 @@ const PrivateRoutes = () => {
         <Route path='dashboard/documents' element={<DocumentList />} />
         <Route path='dashboard/patientFormPrint/:id' element={<PatientFormPrint />} />
         <Route path='dashboard/patientReport' element={<PatientReport />} />
+        <Route path='dashboard/patientReportByReferral' element={<PatientReportByReferral />} />
         {/* Lazy Modules */}
         {/* Page Not Found */}
         <Route path='*' element={<Navigate to='/error/404' />} />

@@ -34,6 +34,7 @@ const SidebarMenuMain = () => {
         icon='/media/icons/duotune/general/gen022.svg'
       >
           <SidebarMenuItem to='/dashboard/patientReport' title='گزارش بیماران' hasBullet={true} />
+          <SidebarMenuItem to='/dashboard/patientReportByReferral' title='گزارش تعداد مراجعات' hasBullet={true} />
       </SidebarMenuItemWithSub>
 
 
