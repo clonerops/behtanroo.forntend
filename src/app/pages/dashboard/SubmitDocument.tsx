@@ -14,7 +14,7 @@ import Backdrop from "../../../_cloner/helpers/components/Backdrop";
 
 const initialValues = {
     createdAt: moment(new Date(Date.now())).format("jYYYY/jMM/jDD"),
-    documentId: "",
+    documentId: "1",
     description: "",
 };
 

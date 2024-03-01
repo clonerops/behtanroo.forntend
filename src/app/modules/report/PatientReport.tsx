@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from 'react'
-import { useDownloadExportExcel, useGetDocuments, useGetPatients } from '../patient/_hooks'
+import { useEffect } from 'react'
+import { useGetDocuments } from '../patient/_hooks'
 import { IPatient } from '../patient/_models'
 import { Form, Formik } from 'formik'
 import Select from '../auth/components/Select'

@@ -2,23 +2,22 @@ import React, { useRef } from 'react'
 import { Card } from 'react-bootstrap'
 import { toAbsoluteUrl } from '../../../_cloner/helpers'
 import { useReactToPrint } from 'react-to-print';
-import { useGetPatient, useGetPatientDocumentById } from '../../modules/patient/_hooks';
+import {  useGetPatientDocumentById } from '../../modules/patient/_hooks';
 import { useParams } from 'react-router-dom';
 
 const PatientFormPrint = (props: any) => {
-    const {id}: any = useParams()
-    const patient: any = useGetPatient(id)
+    const {patientId, documentId}: any = useParams()
+    const patientDocument: any = useGetPatientDocumentById(patientId, documentId)
     const printComponentRef = useRef<HTMLDivElement>(null);
 
     const handlePrint = useReactToPrint({
         content: () => printComponentRef.current,
     });
 
-    if(patient.isLoading) {
+    if(patientDocument.isLoading) {
         return <span>درحال بارگزاری ....</span>
     }
     
-
     return (
         <>
             <button onClick={handlePrint}>پرینت</button>
@@ -31,10 +30,10 @@ const PatientFormPrint = (props: any) => {
                     <header className='flex justify-between items-center'>
                         <div className='px-4'>
                             <p className='font-bold text-2xl'>شماره پرونده: </p>
-                            <p className='font-bold text-4xl'>{100}</p>
+                            <p className='font-bold text-4xl'>{patientDocument?.data?.data?.documentCode}</p>
                         </div>
                         <div className='px-4'>
-                            <p className='font-bold text-2xl'>{patient?.data?.firstName} {patient?.data?.lastName}</p>
+                            <p className='font-bold text-2xl'>{patientDocument?.data?.data?.patient?.firstName} {patientDocument?.data?.data?.patient?.lastName}</p>
                         </div>
                         <div>
                             <img
@@ -59,11 +58,11 @@ const PatientFormPrint = (props: any) => {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td className='border !border-slate-300 text-center'>{patient?.data?.patientCode}</td>
-                                    <td className='border !border-slate-300 text-center'>{patient?.data?.nationalCode}</td>
-                                    <td className='border !border-slate-300 text-center'>{patient?.data?.gender === 1 ? "مرد" : "زن"}</td>
-                                    <td className='border !border-slate-300 text-center'>{patient?.data?.mobile}</td>
-                                    <td className='border !border-slate-300 text-center'>{patient?.data?.address}</td>
+                                    <td className='border !border-slate-300 text-center'>{patientDocument?.data?.data?.patient?.patientCode}</td>
+                                    <td className='border !border-slate-300 text-center'>{patientDocument?.data?.data?.patient?.nationalCode}</td>
+                                    <td className='border !border-slate-300 text-center'>{patientDocument?.data?.data?.patient?.gender === 1 ? "مرد" : "زن"}</td>
+                                    <td className='border !border-slate-300 text-center'>{patientDocument?.data?.data?.patient?.mobile}</td>
+                                    <td className='border !border-slate-300 text-center'>{patientDocument?.data?.data?.patient?.address}</td>
                                 </tr>
                             </tbody>
                         </table>

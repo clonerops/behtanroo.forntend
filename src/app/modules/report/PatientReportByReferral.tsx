@@ -1,12 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect } from 'react'
-import {  useGetDocuments } from '../patient/_hooks'
+import { useGetDocuments } from '../patient/_hooks'
 import { IPatient } from '../patient/_models'
 import { Form, Formik } from 'formik'
 import Select from '../auth/components/Select'
 import { useDownloadExportExcelPatientReportByReferral, useGetPatientReportByReferral } from './_hooks'
 import Inputs from '../auth/components/Inputs'
 import Backdrop from '../../../_cloner/helpers/components/Backdrop'
+import moment from 'moment-jalaali'
+import MultiDatepicker, { DateObject } from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 
 const columns = [
   { id: 8, title: "شماره بیمار" },
@@ -23,13 +27,16 @@ const columns = [
 const initialValues = {
   documentId: "1",
   fromCount: "1",
-  toCount: "10"
+  toCount: "10",
+  fromDate: moment(new Date(Date.now())).subtract(10, 'days').format('jYYYY/jMM/jDD'),
+  toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD')
+
 }
 
 const PatientReportByReferral = () => {
   const patients = useGetPatientReportByReferral()
   const documents = useGetDocuments()
-  
+
 
   const downloadExcel = useDownloadExportExcelPatientReportByReferral()
 
@@ -38,7 +45,10 @@ const PatientReportByReferral = () => {
     const formData = {
       documentId: "1",
       fromCount: "1",
-      toCount: "10"
+      toCount: "10",
+      fromDate: moment(new Date(Date.now())).subtract(10, 'days').format('jYYYY/jMM/jDD'),
+      toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD')
+
     }
     patients.mutate(formData)
   }, [])
@@ -54,7 +64,7 @@ const PatientReportByReferral = () => {
 
   return (
     <>
-      {patients.isLoading &&<Backdrop loading={patients.isLoading} /> }
+      {patients.isLoading && <Backdrop loading={patients.isLoading} />}
       <div className={`card`}>
         <div className='container'>
           <Formik initialValues={initialValues} onSubmit={onSubmit}>
@@ -84,18 +94,52 @@ const PatientReportByReferral = () => {
                   </div>
                   <div className='flex flex-col'>
                     <Inputs
-                        type="text"
-                        login={true}
-                        getFieldProps={getFieldProps}
-                        touched={touched.toCount}
-                        errors={errors.toCount}
-                        name={"toCount"}
-                        title="تا"
-                      ></Inputs>
+                      type="text"
+                      login={true}
+                      getFieldProps={getFieldProps}
+                      touched={touched.toCount}
+                      errors={errors.toCount}
+                      name={"toCount"}
+                      title="تا"
+                    ></Inputs>
+                  </div>
+                  <div className='flex flex-col'>
+                    <label className="form-label fs-6 fw-bolder text-dark">
+                      از تاریخ
+                    </label>
+                    <MultiDatepicker
+                      {...getFieldProps("fromDate")}
+                      id="fromDate"
+                      name='fromDate'
+                      locale={persian_fa}
+                      calendar={persian}
+                      value={values.fromDate}
+                      onChange={(date: DateObject | DateObject[] | null) => setFieldValue('fromDate', date)}
+                      render={
+                        <input className='form-control bg-transparent' />
+                      }
+                    />
+                  </div>
+                  <div className='flex flex-col'>
+                    <label className="form-label fs-6 fw-bolder text-dark">
+                      از تاریخ
+                    </label>
+                    <MultiDatepicker
+                      {...getFieldProps("toDate")}
+                      id="toDate"
+                      name='toDate'
+                      locale={persian_fa}
+                      calendar={persian}
+                      value={values.toDate}
+                      onChange={(date: DateObject | DateObject[] | null) => setFieldValue('toDate', date)}
+                      render={
+                        <input className='form-control bg-transparent' />
+                      }
+                    />
                   </div>
 
                 </div>
-                <div className='flex justify-between items-center'>
+                <div className='flex justify-between items-center mt-8'>
                   <button className='btn btn-success' onClick={() => handleSubmit()}>جستجو</button>
                   <button className='btn btn-warning' onClick={() => handleDownloadExcel(values)}>خروجی اکسل</button>
                 </div>

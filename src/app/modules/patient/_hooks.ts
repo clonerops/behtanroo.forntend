@@ -15,6 +15,9 @@ export const useGetPatients = () => {
 export const useGetPatient = (id: string) => {
     return useQuery(['patient', id], () => api.getPatient(id))
 }
+export const useGetDocument = (id: string) => {
+    return useQuery(['document', id], () => api.getDocument(id))
+}
 
 export const useDownloadExportExcel = () => {
     return useMutation(() => {
@@ -54,6 +57,6 @@ export const usePostPatientDocument = () => {
 export const useGetPatientDocuments = () => {
     return useQuery(['patientDocuments'], () => api.getPatientDocuments())
 }
-export const useGetPatientDocumentById = (id: number) => {
-    return useQuery(['patientDocument', id], () => api.getPatientDocumentById(id))
+export const useGetPatientDocumentById = (patientId: string, documentId: string) => {
+    return useQuery(['patientDocument', patientId, documentId], () => api.getPatientDocumentById(patientId, documentId))
 }

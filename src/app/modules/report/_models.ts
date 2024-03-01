@@ -7,4 +7,6 @@ export interface IPatientReportByReferral {
     documentId: string
     fromCount: string
     toCount: string
+    fromDate: string
+    toDate: string
 }

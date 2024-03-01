@@ -64,6 +64,11 @@ export const getDocuments = async () => {
     const {data} = await http.get(`/document`);
     return data
 }
+export const getDocument = async (id: string) => {
+    const {data} = await http.get(`/document/${id}`);
+    return data
+}
+
 export const postPatientDocument = async (formData: IPatientDocument ) => {
     try {
         const {data} = await http.post('/patientdocument', JSON.stringify(formData))
@@ -79,7 +84,7 @@ export const getPatientDocuments = async () => {
     return data
 }
 
-export const getPatientDocumentById = async (id: number) => {
-    const {data} = await http.get(`/patientdocument/${id}`);
+export const getPatientDocumentById = async (patientId: string, documentId: string) => {
+    const {data} = await http.get(`/patientdocument/patient/${patientId}/document/${documentId}`);
     return data
 }

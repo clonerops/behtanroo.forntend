@@ -25,7 +25,7 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
   useEffect(() => {
     setResults(patients?.data?.data)
   }, [patients?.data?.data])
-
+  
   const handleOpenModal = (item: IPatientDocument) => {
     setItems(item)
     setIsOpen(true)
@@ -34,6 +34,7 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
   if (patients.isLoading) {
     return <div>درحال بارگزاری ...</div>
   }
+
 
   return (
     <div className={`card ${className}`}>
@@ -105,7 +106,7 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
                   </td>
                   <td className='!w-full'>
                     <div className='d-flex gap-x-4 flex-shrink-0 items-center '>
-                      <Link to={`/dashboard/patientFormPrint/${item.patient?.id}`} className=''>
+                      <Link to={`/dashboard/patientFormPrint/${item.patient?.id}/${item?.document?.id}`} className=''>
                         <img className="!bg-white" src={toAbsoluteUrl('/media/logos/print-icon.png')} width={24} height={24} />
                       </Link>
                       <button onClick={() => handleOpenModal(item)} className='bg-violet-500 px-4 py-2 rounded-md text-white'>
