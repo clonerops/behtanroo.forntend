@@ -25,7 +25,7 @@ const columns = [
 ]
 
 const initialValues = {
-  documentId: "1",
+  documentId: "0",
   fromCount: "1",
   toCount: "10",
   fromDate: moment(new Date(Date.now())).subtract(10, 'days').format('jYYYY/jMM/jDD'),
@@ -43,7 +43,7 @@ const PatientReportByReferral = () => {
 
   useEffect(() => {
     const formData = {
-      documentId: "1",
+      documentId: "0",
       fromCount: "1",
       toCount: "10",
       fromDate: moment(new Date(Date.now())).subtract(10, 'days').format('jYYYY/jMM/jDD'),

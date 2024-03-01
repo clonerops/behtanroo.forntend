@@ -24,7 +24,7 @@ const columns = [
 ]
 
 const initialValues = {
-  documentId: "1",
+  documentId: "0",
   fromDate: moment(new Date(Date.now())).subtract(10, 'days').format('jYYYY/jMM/jDD'),
   toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD')
 }
@@ -39,7 +39,7 @@ const PatientReport = () => {
 
   useEffect(() => {
     const formData = {
-      documentId: "1",
+      documentId: "0",
       fromDate: moment(new Date(Date.now())).subtract(10, 'days').format('jYYYY/jMM/jDD'),
       toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD')
     }
