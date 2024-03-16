@@ -5,6 +5,7 @@ import { IPatient } from './_models'
 import FuzzySearch from '../../../_cloner/helpers/Fuse'
 import SubmitDocument from '../../pages/dashboard/SubmitDocument'
 import Backdrop from '../../../_cloner/helpers/components/Backdrop'
+import PatientEdit from '../../pages/dashboard/PatientEdit'
 
 type Props = {
   className: string
@@ -18,7 +19,9 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
   const patients = useGetPatients()
   const downloadExcel = useDownloadExportExcel()
   const [open, setIsOpen] = useState<boolean>(false)
+  const [editOpen, setIsEditOpen] = useState<boolean>(false)
   const [items, setItems] = useState<any>()
+  const [editItems, setEditItems] = useState<any>()
   const [results, setResults] = useState<any[]>([]);
 
 
@@ -29,6 +32,10 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
   const handleOpenModal = (item: IPatient) => {
     setItems(item)
     setIsOpen(true)
+  }
+  const handleEditOpenModal = (item: IPatient) => {
+    setEditItems(item)
+    setIsEditOpen(true)
   }
 
   const handleDownloadExcel = async () => {
@@ -147,6 +154,13 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
                         </button>
                       </div>
                     </td>
+                    <td className='!w-full'>
+                      <div className='flex justify-center items-center gap-x-4 flex-shrink-0 '>
+                        <button onClick={() => handleEditOpenModal(item)} className='!w-full bg-yellow-500 px-4 py-2 rounded-md text-white'>
+                          <span className='!w-full'>ویرایش</span>
+                        </button>
+                      </div>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -157,6 +171,7 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
           {/* end::Table container */}
         </div>
         <SubmitDocument item={items} isOpen={open} setIsOpen={setIsOpen} />
+        <PatientEdit item={editItems} isOpen={editOpen} setIsOpen={setIsEditOpen} refetch={patients.refetch} />
         {/* begin::Body */}
       </div>
     </>

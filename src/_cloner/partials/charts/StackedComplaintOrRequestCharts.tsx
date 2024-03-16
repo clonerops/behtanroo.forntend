@@ -130,7 +130,6 @@ const StackedComplaintOrRequestCharts: FC<IProps> = ({
             formatter: function (
                 this: Highcharts.TooltipFormatterContextObject
             ) {
-                console.log("this.series.name", this.series.name)
                 if (this.series.name === "شکایت / درحال انجام") {
                     return `<b> ${this.x} <br />شکایت / درحال انجام: ${this.y} </b>`;
                 } else if (this.series.name === "درخواست / درحال انجام") {

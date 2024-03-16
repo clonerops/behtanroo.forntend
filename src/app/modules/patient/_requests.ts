@@ -10,13 +10,21 @@ export const postPatient = async (formData: IPatient) => {
             return error.response
     }
 }
+export const putPatient = async (formData: IPatient) => {
+    try {
+        const {data} = await http.put(`/patient/${formData.id}/edit`, JSON.stringify(formData))
+        return data        
+    } catch (error: any) {
+            return error.response
+    }
+}
 
 export const getPatients = async () => {
     const {data} = await http.get('/patient/lists');
     return data
 }
 
-export const getPatient = async (id: string) => {
+export const getPatient = async (id: number) => {
     const {data} = await http.get(`/patient/${id}`);
     return data
 }
@@ -86,5 +94,10 @@ export const getPatientDocuments = async () => {
 
 export const getPatientDocumentById = async (patientId: string, documentId: string) => {
     const {data} = await http.get(`/patientdocument/patient/${patientId}/document/${documentId}`);
+    return data
+}
+
+export const deletePatientDocument = async (patientId: number, documentId: number) => {
+    const {data} = await http.delete(`/patientdocument/patient/${patientId}/document/${documentId}`);
     return data
 }

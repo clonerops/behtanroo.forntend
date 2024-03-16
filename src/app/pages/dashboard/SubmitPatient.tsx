@@ -27,7 +27,6 @@ const SubmitPatient = () => {
         try {
             postPatient.mutate(values, {
                 onSuccess: (response) => {
-                    console.log(response);
                     if (response.status === 400) {
                         toast.error(response.data.message);
                     } else {
