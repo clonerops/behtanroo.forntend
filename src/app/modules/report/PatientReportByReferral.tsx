@@ -11,6 +11,7 @@ import moment from 'moment-jalaali'
 import MultiDatepicker, { DateObject } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+import { toAbsoluteUrl } from '../../../_cloner/helpers'
 
 const columns = [
   { id: 8, title: "شماره بیمار" },
@@ -67,8 +68,9 @@ const PatientReportByReferral = () => {
   return (
     <>
       {patients.isLoading && <Backdrop loading={patients.isLoading} />}
-      <div className={`card`}>
-        <div className='container'>
+      <div className={`card p-4`}>
+        <div className='grid grid-cols-1 lg:grid-cols-4 gap-x-4'>
+          <div className='lg:col-span-3'>
           <Formik initialValues={initialValues} onSubmit={onSubmit}>
             {({ getFieldProps, touched, errors, handleSubmit, values, setFieldValue }) => {
               return <Form>
@@ -161,7 +163,7 @@ const PatientReportByReferral = () => {
               <table className='table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4'>
                 {/* begin::Table head */}
                 <thead>
-                  <tr className='fw-bold text-muted'>
+                  <tr className='fw-bold bg-[#AFD2FA] text-black'>
                     {columns.map((item: { title: string }) => {
                       return <th className='min-w-150px'>{item.title}</th>
                     })}
@@ -172,58 +174,58 @@ const PatientReportByReferral = () => {
                 {/* begin::Table body */}
                 <tbody>
                   {patients?.data?.data?.map((item: any) => (
-                    <tr>
-                      <td>
+                  <tr className='odd:bg-[#ECF5FF] p-0'>
+                    <td className="p-2">
                         <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
                           {item.patient.patientCode}
                         </a>
                       </td>
-                      <td>
+                       <td className="p-2">
                         <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
                           {item.documentCode}
                         </a>
                       </td>
-                      <td>
+                       <td className="p-2">
                         <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
                           {item.document.title}
                         </a>
                       </td>
-                      <td>
+                       <td className="p-2">
                         <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
                           {item.patient.firstName}
                         </a>
                       </td>
-                      <td>
+                       <td className="p-2">
                         <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
                           {item.patient.lastName}
                         </a>
                       </td>
-                      <td>
+                       <td className="p-2">
                         <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
                           {item.patient.gender === 1 ? " مرد " : "زن"}
                         </a>
                       </td>
-                      <td>
+                       <td className="p-2">
                         <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
                           {item.patient.nationalCode}
                         </a>
                       </td>
-                      <td>
+                       <td className="p-2">
                         <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
                           {item.patient.mobile}
                         </a>
                       </td>
-                      <td>
+                       <td className="p-2">
                         <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
                           {item.patient.mobile2}
                         </a>
                       </td>
-                      <td>
+                       <td className="p-2">
                         <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
                           {item.patient.tel}
                         </a>
                       </td>
-                      <td>
+                       <td className="p-2">
                         <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
                           {item.patient.address}
                         </a>
@@ -236,6 +238,15 @@ const PatientReportByReferral = () => {
               {/* end::Table */}
             </div>
             {/* end::Table container */}
+          </div>
+          
+          </div>
+          <div>
+              <img 
+                src={toAbsoluteUrl('/media/logos/doc13.png')}
+                width={400}
+                className='rounded-lg'
+              />
           </div>
         </div>
       </div>

@@ -12,6 +12,7 @@ const columns = [
     {id: 6, title: "تلفن منزل"},
     {id: 7, title: "آدرس"},
     {id: 9, title: "عملیات"},
+    {id: 11, title: "ویرایش"},
 ]
 
 const PatientLists = () => {

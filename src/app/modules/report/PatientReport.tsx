@@ -12,9 +12,11 @@ import { useDownloadExportExcelPatientReport, useGetPatientReport } from './_hoo
 import Backdrop from '../../../_cloner/helpers/components/Backdrop'
 import { Link } from 'react-router-dom'
 import FuzzySearch from '../../../_cloner/helpers/Fuse'
+import { toAbsoluteUrl } from '../../../_cloner/helpers'
 
 const columns = [
   { id: 8, title: "شماره بیمار" },
+  { id: 7, title: "جزئیات" },
   { id: 12, title: "شماره پرونده" },
   { id: 11, title: "نوع پرونده" },
   { id: 1, title: "نام" },
@@ -25,7 +27,6 @@ const columns = [
   { id: 5, title: "شماره همراه ضروری" },
   { id: 6, title: "تلفن منزل" },
   { id: 7, title: "آدرس" },
-  { id: 7, title: "جزئیات" },
 ]
 
 const initialValues = {
@@ -70,173 +71,182 @@ const PatientReport = () => {
   return (
     <>
       {patients.isLoading &&<Backdrop loading={patients.isLoading} /> }
-      <div className={`card`}>
-        <div className='container'>
-          <Formik initialValues={initialValues} onSubmit={onSubmit}>
-            {({ getFieldProps, touched, errors, handleSubmit, values, setFieldValue }) => {
-              return <Form>
-                <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
-                  <Select
-                    type="text"
-                    login={true}
-                    options={documents?.data?.data || []}
-                    getFieldProps={getFieldProps}
-                    touched={touched.documentId}
-                    errors={errors.documentId}
-                    name={"documentId"}
-                    title="نوع پرونده"
-                  ></Select>
-                  <div className='flex flex-col'>
-                    <label className="form-label fs-6 fw-bolder text-dark">
-                      از تاریخ
-                    </label>
-                    <MultiDatepicker
-                      {...getFieldProps("fromDate")}
-                      id="fromDate"
-                      name='fromDate'
-                      locale={persian_fa}
-                      calendar={persian}
-                      value={values.fromDate}
-                      onChange={(date: DateObject | DateObject[] | null) => setFieldValue('fromDate', date)}
-                      render={
-                        <input className='form-control bg-transparent' />
-                      }
-                    />
+      <div className={`card p-4`}>
+        <div className='grid grid-cols-1 lg:grid-cols-4 gap-x-4'>
+          <div className='lg:col-span-3'>
+            <Formik initialValues={initialValues} onSubmit={onSubmit}>
+              {({ getFieldProps, touched, errors, handleSubmit, values, setFieldValue }) => {
+                return <Form>
+                  <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
+                    <Select
+                      type="text"
+                      login={true}
+                      options={documents?.data?.data || []}
+                      getFieldProps={getFieldProps}
+                      touched={touched.documentId}
+                      errors={errors.documentId}
+                      name={"documentId"}
+                      title="نوع پرونده"
+                    ></Select>
+                    <div className='flex flex-col'>
+                      <label className="form-label fs-6 fw-bolder text-dark">
+                        از تاریخ
+                      </label>
+                      <MultiDatepicker
+                        {...getFieldProps("fromDate")}
+                        id="fromDate"
+                        name='fromDate'
+                        locale={persian_fa}
+                        calendar={persian}
+                        value={values.fromDate}
+                        onChange={(date: DateObject | DateObject[] | null) => setFieldValue('fromDate', date)}
+                        render={
+                          <input className='form-control bg-transparent' />
+                        }
+                      />
+                    </div>
+                    <div className='flex flex-col'>
+                      <label className="form-label fs-6 fw-bolder text-dark">
+                        از تاریخ
+                      </label>
+                      <MultiDatepicker
+                        {...getFieldProps("toDate")}
+                        id="toDate"
+                        name='toDate'
+                        locale={persian_fa}
+                        calendar={persian}
+                        value={values.toDate}
+                        onChange={(date: DateObject | DateObject[] | null) => setFieldValue('toDate', date)}
+                        render={
+                          <input className='form-control bg-transparent' />
+                        }
+                      />
+                    </div>
+
                   </div>
-                  <div className='flex flex-col'>
-                    <label className="form-label fs-6 fw-bolder text-dark">
-                      از تاریخ
-                    </label>
-                    <MultiDatepicker
-                      {...getFieldProps("toDate")}
-                      id="toDate"
-                      name='toDate'
-                      locale={persian_fa}
-                      calendar={persian}
-                      value={values.toDate}
-                      onChange={(date: DateObject | DateObject[] | null) => setFieldValue('toDate', date)}
-                      render={
-                        <input className='form-control bg-transparent' />
-                      }
-                    />
+                  <div className='flex justify-between items-center'>
+                    <button className='btn btn-success' onClick={() => handleSubmit()}>جستجو</button>
+                    <button className='btn btn-warning' onClick={() => handleDownloadExcel(values)}>خروجی اکسل</button>
                   </div>
+                </Form>
+              }}
 
-                </div>
-                <div className='flex justify-between items-center'>
-                  <button className='btn btn-success' onClick={() => handleSubmit()}>جستجو</button>
-                  <button className='btn btn-warning' onClick={() => handleDownloadExcel(values)}>خروجی اکسل</button>
-                </div>
-              </Form>
-            }}
+            </Formik>
 
-          </Formik>
-
-          <div className='my-8 w-[50%] '>
-          <FuzzySearch
-            keys={[
-              "patientCode",
-              "firstName",
-              "lastName",
-              "nationalCode",
-              "mobile",
-            ]}
-            data={patients?.data?.data}
-            setResults={setResults}
-          />
-        </div>
-
-          {/* begin::Header */}
-          <div className='flex justify-between items-center m-8'>
+            <div className='my-8 w-[50%] '>
+            <FuzzySearch
+              keys={[
+                "patientCode",
+                "firstName",
+                "lastName",
+                "nationalCode",
+                "mobile",
+              ]}
+              data={patients?.data?.data}
+              setResults={setResults}
+            />
           </div>
-          {/* end::Header */}
-          {/* begin::Body */}
-          <div className='card-body py-3'>
-            {/* begin::Table container */}
-            <div className='table-responsive'>
-              {/* begin::Table */}
-              <table className='table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4'>
-                {/* begin::Table head */}
-                <thead>
-                  <tr className='fw-bold text-muted'>
-                    {columns.map((item: { title: string }) => {
-                      return <th className='min-w-150px'>{item.title}</th>
-                    })}
 
-                  </tr>
-                </thead>
-                {/* end::Table head */}
-                {/* begin::Table body */}
-                <tbody>
-                  {results?.map((item: IPatient) => (
-                    <tr>
-                      <td>
-                        <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
-                          {item.patientCode}
-                        </a>
-                      </td>
-                      <td>
-                        <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
-                          {item.documentCode}
-                        </a>
-                      </td>
-                      <td>
-                        <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
-                          {item.document.title}
-                        </a>
-                      </td>
-                      <td>
-                        <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
-                          {item.firstName}
-                        </a>
-                      </td>
-                      <td>
-                        <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                          {item.lastName}
-                        </a>
-                      </td>
-                      <td>
-                        <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                          {item.gender === 1 ? " مرد " : "زن"}
-                        </a>
-                      </td>
-                      <td>
-                        <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                          {item.nationalCode}
-                        </a>
-                      </td>
-                      <td>
-                        <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                          {item.mobile}
-                        </a>
-                      </td>
-                      <td>
-                        <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                          {item.mobile2}
-                        </a>
-                      </td>
-                      <td>
-                        <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                          {item.tel}
-                        </a>
-                      </td>
-                      <td>
-                        <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                          {item.address}
-                        </a>
-                      </td>
-                      <td>
-                        <Link to={`/dashboard/patient/${item.id}`} className='text-yellow-500 fw-bold text-hover-primary d-block fs-6'>
-                          مشاهده جزئیات
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-                {/* end::Table body */}
-              </table>
-              {/* end::Table */}
+            {/* begin::Header */}
+            <div className='flex justify-between items-center m-8'>
             </div>
-            {/* end::Table container */}
+            {/* end::Header */}
+            {/* begin::Body */}
+            <div className='card-body py-3'>
+              {/* begin::Table container */}
+              <div className='table-responsive'>
+                {/* begin::Table */}
+                <table className='table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4'>
+                  {/* begin::Table head */}
+                  <thead>
+                    <tr className='fw-bold bg-[#AFD2FA] text-black'>
+                      {columns.map((item: { title: string }) => {
+                        return <th className='min-w-150px'>{item.title}</th>
+                      })}
+
+                    </tr>
+                  </thead>
+                  {/* end::Table head */}
+                  {/* begin::Table body */}
+                  <tbody>
+                    {results?.map((item: IPatient) => (
+                    <tr className='odd:bg-[#ECF5FF] p-0'>
+                      <td className="p-2">
+                          <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
+                            {item.patientCode}
+                          </a>
+                        </td>
+                        <td className="p-2">
+                          <Link to={`/dashboard/patient/${item.id}`} className='text-yellow-500 fw-bold text-hover-primary d-block fs-6'>
+                            مشاهده جزئیات
+                          </Link>
+                        </td>
+                        <td className="p-2">
+                          <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
+                            {item.documentCode}
+                          </a>
+                        </td>
+                        <td className="p-2">
+                          <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
+                            {item.document.title}
+                          </a>
+                        </td>
+                        <td className="p-2">
+                          <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
+                            {item.firstName}
+                          </a>
+                        </td>
+                        <td className="p-2">
+                          <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                            {item.lastName}
+                          </a>
+                        </td>
+                        <td className="p-2">
+                          <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                            {item.gender === 1 ? " مرد " : "زن"}
+                          </a>
+                        </td>
+                        <td className="p-2">
+                          <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                            {item.nationalCode}
+                          </a>
+                        </td>
+                        <td className="p-2">
+                          <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                            {item.mobile}
+                          </a>
+                        </td>
+                        <td className="p-2">
+                          <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                            {item.mobile2}
+                          </a>
+                        </td>
+                        <td className="p-2">
+                          <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                            {item.tel}
+                          </a>
+                        </td>
+                        <td className="p-2">
+                          <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                            {item.address}
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                  {/* end::Table body */}
+                </table>
+                {/* end::Table */}
+              </div>
+              {/* end::Table container */}
+            </div>
+          </div>
+          <div>
+              <img 
+                src={toAbsoluteUrl('/media/logos/doctor12.webp')}
+                width={400}
+                className='rounded-lg'
+              />
           </div>
         </div>
       </div>
