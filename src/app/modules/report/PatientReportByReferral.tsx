@@ -14,6 +14,8 @@ import persian_fa from "react-date-object/locales/persian_fa";
 
 const columns = [
   { id: 8, title: "شماره بیمار" },
+  { id: 11, title: "شماره پرونده" },
+  { id: 12, title: "نوع پرونده" },
   { id: 1, title: "نام" },
   { id: 2, title: "نام خانوادگی" },
   { id: 10, title: "جنسیت" },
@@ -169,51 +171,61 @@ const PatientReportByReferral = () => {
                 {/* end::Table head */}
                 {/* begin::Table body */}
                 <tbody>
-                  {patients?.data?.data?.map((item: IPatient) => (
+                  {patients?.data?.data?.map((item: any) => (
                     <tr>
                       <td>
                         <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
-                          {item.patientCode}
+                          {item.patient.patientCode}
                         </a>
                       </td>
                       <td>
                         <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
-                          {item.firstName}
+                          {item.documentCode}
+                        </a>
+                      </td>
+                      <td>
+                        <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
+                          {item.document.title}
+                        </a>
+                      </td>
+                      <td>
+                        <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
+                          {item.patient.firstName}
                         </a>
                       </td>
                       <td>
                         <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                          {item.lastName}
+                          {item.patient.lastName}
                         </a>
                       </td>
                       <td>
                         <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                          {item.gender === 1 ? " مرد " : "زن"}
+                          {item.patient.gender === 1 ? " مرد " : "زن"}
                         </a>
                       </td>
                       <td>
                         <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                          {item.nationalCode}
+                          {item.patient.nationalCode}
                         </a>
                       </td>
                       <td>
                         <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                          {item.mobile}
+                          {item.patient.mobile}
                         </a>
                       </td>
                       <td>
                         <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                          {item.mobile2}
+                          {item.patient.mobile2}
                         </a>
                       </td>
                       <td>
                         <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                          {item.tel}
+                          {item.patient.tel}
                         </a>
                       </td>
                       <td>
                         <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                          {item.address}
+                          {item.patient.address}
                         </a>
                       </td>
                     </tr>
