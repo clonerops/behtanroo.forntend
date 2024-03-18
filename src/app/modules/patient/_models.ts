@@ -1,6 +1,7 @@
 export interface IPatient {
     id?: number
     patientCode?: number,
+    documentCode?: number,
     firstName: string
     lastName: string
     nationalCode: string
@@ -9,6 +10,7 @@ export interface IPatient {
     mobile2: string
     tel: string
     address: string
+    document?: any
 }
 
 export interface IReferral {

@@ -8,6 +8,7 @@ import DocumentList from '../pages/dashboard/DocumentList'
 import PatientFormPrint from '../pages/dashboard/PatientFormPrint'
 import PatientReport from '../modules/report/PatientReport'
 import PatientReportByReferral from '../modules/report/PatientReportByReferral'
+import PatientDetail from '../pages/dashboard/PatientDetail'
 
 const PrivateRoutes = () => {
 
@@ -19,6 +20,7 @@ const PrivateRoutes = () => {
         {/* Pages */}
         <Route path='dashboard' element={<Dashboard />} />
         <Route path='dashboard/patient' element={<SubmitPatient />} />
+        <Route path='dashboard/patient/:id' element={<PatientDetail />} />
         <Route path='dashboard/patientList' element={<PatientLists />} />
         <Route path='dashboard/patient/:patientId/document/:documentId' element={<Referrals />} />
         <Route path='dashboard/documents' element={<DocumentList />} />

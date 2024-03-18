@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useGetDocuments } from '../patient/_hooks'
 import { IPatient } from '../patient/_models'
 import { Form, Formik } from 'formik'
@@ -10,9 +10,13 @@ import persian_fa from "react-date-object/locales/persian_fa";
 import moment from 'moment-jalaali'
 import { useDownloadExportExcelPatientReport, useGetPatientReport } from './_hooks'
 import Backdrop from '../../../_cloner/helpers/components/Backdrop'
+import { Link } from 'react-router-dom'
+import FuzzySearch from '../../../_cloner/helpers/Fuse'
 
 const columns = [
   { id: 8, title: "شماره بیمار" },
+  { id: 12, title: "شماره پرونده" },
+  { id: 11, title: "نوع پرونده" },
   { id: 1, title: "نام" },
   { id: 2, title: "نام خانوادگی" },
   { id: 10, title: "جنسیت" },
@@ -21,6 +25,7 @@ const columns = [
   { id: 5, title: "شماره همراه ضروری" },
   { id: 6, title: "تلفن منزل" },
   { id: 7, title: "آدرس" },
+  { id: 7, title: "جزئیات" },
 ]
 
 const initialValues = {
@@ -32,7 +37,13 @@ const initialValues = {
 const PatientReport = () => {
   const patients = useGetPatientReport()
   const documents = useGetDocuments()
+  const [results, setResults] = useState<any[]>([]);
+
+  useEffect(() => {
+    setResults(patients?.data?.data)
+  }, [patients?.data?.data])
   
+
 
   const downloadExcel = useDownloadExportExcelPatientReport()
 
@@ -54,6 +65,7 @@ const PatientReport = () => {
   const onSubmit = (values: any) => {
     patients.mutate(values)
   }
+  console.log(patients?.data?.data)
 
   return (
     <>
@@ -118,6 +130,21 @@ const PatientReport = () => {
             }}
 
           </Formik>
+
+          <div className='my-8 w-[50%] '>
+          <FuzzySearch
+            keys={[
+              "patientCode",
+              "firstName",
+              "lastName",
+              "nationalCode",
+              "mobile",
+            ]}
+            data={patients?.data?.data}
+            setResults={setResults}
+          />
+        </div>
+
           {/* begin::Header */}
           <div className='flex justify-between items-center m-8'>
           </div>
@@ -140,11 +167,21 @@ const PatientReport = () => {
                 {/* end::Table head */}
                 {/* begin::Table body */}
                 <tbody>
-                  {patients?.data?.data?.map((item: IPatient) => (
+                  {results?.map((item: IPatient) => (
                     <tr>
                       <td>
                         <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
                           {item.patientCode}
+                        </a>
+                      </td>
+                      <td>
+                        <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
+                          {item.documentCode}
+                        </a>
+                      </td>
+                      <td>
+                        <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
+                          {item.document.title}
                         </a>
                       </td>
                       <td>
@@ -186,6 +223,11 @@ const PatientReport = () => {
                         <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
                           {item.address}
                         </a>
+                      </td>
+                      <td>
+                        <Link to={`/dashboard/patient/${item.id}`} className='text-yellow-500 fw-bold text-hover-primary d-block fs-6'>
+                          مشاهده جزئیات
+                        </Link>
                       </td>
                     </tr>
                   ))}
