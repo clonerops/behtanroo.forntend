@@ -56,6 +56,13 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
     <>
     {deletePatientDocument.isLoading && <div>درحال بارگزاری ...</div>}
       <div className={`card ${className}`}>
+        <div className='card-header border-0 pt-5'>
+          <h3 className='card-title align-items-start flex-column'>
+            <span className='card-label fw-bold fs-3 mb-1 !text-green-500'>{title}</span>
+          </h3>
+          <img src={toAbsoluteUrl('/media/logos/2926635.jpg')} width={100} height={100} />
+
+        </div>
 
         {/* begin::Header */}
         <div className='m-8 w-[50%] '>
@@ -71,11 +78,6 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
             setResults={setResults}
           />
         </div>
-        <div className='card-header border-0 pt-5'>
-          <h3 className='card-title align-items-start flex-column'>
-            <span className='card-label fw-bold fs-3 mb-1 !text-green-500'>{title}</span>
-          </h3>
-        </div>
         {/* end::Header */}
         {/* begin::Body */}
         <div className='card-body py-3'>
@@ -85,7 +87,7 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
             <table className='table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4'>
               {/* begin::Table head */}
               <thead>
-                <tr className='fw-bold text-muted'>
+                <tr className='!w-full fw-bold bg-[#AFD2FA] text-black text-center'>
                   {columns.map((item: { title: string }) => {
                     return <th className='min-w-150px'>{item.title}</th>
                   })}
@@ -96,7 +98,7 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
               {/* begin::Table body */}
               <tbody>
                 {results?.map((item: IPatientDocument) => (
-                  <tr>
+                  <tr className='text-center'>
                     <td>
                       <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
                         {item.documentCode}

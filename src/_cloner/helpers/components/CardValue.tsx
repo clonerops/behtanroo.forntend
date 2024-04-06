@@ -9,7 +9,7 @@ interface IProps {
 const CardValue:FC<IProps> = ({title, value}) => {
     return (
         <Card >
-            <div className="flex flex-row justify-center items-center gap-x-8 px-4 py-8">
+            <div className="flex flex-row bg-gradient-to-r from-gray-50 justify-center items-center gap-x-8 px-4 py-8">
                 <h3 className="font-bold text-gray-500 text-lg">
                     {title}
                 </h3>

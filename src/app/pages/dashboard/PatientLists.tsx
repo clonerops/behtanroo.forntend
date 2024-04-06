@@ -2,6 +2,7 @@ import FuzzySearch from "../../../_cloner/helpers/Fuse"
 import { TablesWidget9 } from "../../modules/patient/TablesWidget9"
 
 const columns = [
+    {id: 9, title: "عملیات"},
     {id: 8, title: "شماره بیمار"},
     {id: 1, title: "نام"},
     {id: 2, title: "نام خانوادگی"},
@@ -16,8 +17,6 @@ const columns = [
     {id: 15, title: "معرف"},
     {id: 16, title: "وضعیت تاهل"},
     {id: 7, title: "آدرس"},
-    {id: 9, title: "عملیات"},
-    {id: 11, title: "ویرایش"},
 ]
 
 const PatientLists = () => {

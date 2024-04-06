@@ -8,6 +8,7 @@ const columns = [
     {id: 3, title: "نام بیمار"},
     {id: 4, title: "نام خانوادگی بیمار"},
     {id: 5, title: "نوع پرونده"},
+    {id: 5, title: ""},
 ]
 
 const DocumentList = () => {
