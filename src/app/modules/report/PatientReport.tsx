@@ -133,7 +133,7 @@ const PatientReport = () => {
 
             </Formik>
 
-            <div className='my-8 w-[50%] '>
+            {/* <div className='my-8 w-[50%] '>
             <FuzzySearch
               keys={[
                 "patientCode",
@@ -145,7 +145,7 @@ const PatientReport = () => {
               data={patients?.data?.data}
               setResults={setResults}
             />
-          </div>
+          </div> */}
 
             {/* begin::Header */}
             <div className='flex justify-between items-center m-8'>
@@ -159,7 +159,7 @@ const PatientReport = () => {
                 <table className='table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4'>
                   {/* begin::Table head */}
                   <thead>
-                    <tr className='fw-bold bg-[#AFD2FA] text-black'>
+                    <tr className='fw-bold bg-[#AFD2FA] text-black text-center'>
                       {columns.map((item: { title: string }) => {
                         return <th className='min-w-150px'>{item.title}</th>
                       })}
@@ -170,7 +170,7 @@ const PatientReport = () => {
                   {/* begin::Table body */}
                   <tbody>
                     {results?.map((item: IPatient) => (
-                    <tr className='odd:bg-[#ECF5FF] p-0'>
+                    <tr className='odd:bg-[#ECF5FF] p-0 text-center'>
                       <td className="p-2">
                           <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
                             {item.patientCode}
