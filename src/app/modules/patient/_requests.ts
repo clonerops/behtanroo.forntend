@@ -81,9 +81,8 @@ export const postPatientDocument = async (formData: IPatientDocument ) => {
     try {
         const {data} = await http.post('/patientdocument', JSON.stringify(formData))
         return data        
-    } catch (error) {
-        if(error instanceof Error)
-            return error
+    } catch (error: any) {
+            return error.response
     }
 }
 

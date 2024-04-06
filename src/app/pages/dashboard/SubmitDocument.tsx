@@ -35,8 +35,11 @@ const SubmitDocument = (props: Props) => {
         };
         patientDocument.mutate(formData, {
             onSuccess: (response) => {
+                console.log(response)
                 if (response.status === 400) {
                     toast.error(response.data.message);
+                } else if(response.status === 500) {
+                    toast.error("پرونده قبلا ایجاد شده است");
                 } else {
                     toast.success("پرونده جدید با موفقیت ثبت گردید");
                 }
