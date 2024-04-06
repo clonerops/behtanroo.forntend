@@ -1,4 +1,3 @@
-import moment from "moment-jalaali";
 import Modal from "../../../_cloner/helpers/components/Modal";
 import Inputs from "../../modules/auth/components/Inputs";
 import Textarea from "../../modules/auth/components/Textarea";
@@ -14,6 +13,10 @@ import {
 import Select from "../../modules/auth/components/Select";
 import { toast } from "react-toastify";
 import Backdrop from "../../../_cloner/helpers/components/Backdrop";
+import MultiDatepicker, { DateObject } from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
+import moment from "moment-jalaali";
 
 const initialValues = {
     firstName: "",
@@ -24,6 +27,11 @@ const initialValues = {
     tel: "",
     address: "",
     gender: "2",
+    birthDate: "",
+    job: "",
+    education: "",
+    representative: "",
+    maritalStatus: "2",
     description: "",
 };
 
@@ -31,42 +39,46 @@ type Props = {
     isOpen: boolean;
     setIsOpen: any;
     item: IPatient;
-    refetch: any
+    refetch: any;
 };
 
 const PatientEdit = (props: Props) => {
-    
-    const detailTools = useGetPatient(props?.item?.id || 0)
+    const detailTools = useGetPatient(props?.item?.id || 0);
     const postPatient = usePutPatient();
 
     const onSubmit = async (values: any) => {
-        postPatient.mutate(values, {
+        const formData = {
+            ...values,
+            birthDate: new Date(values.birthDate)
+        }
+        console.log(formData)
+        postPatient.mutate(formData, {
             onSuccess: (response) => {
                 if (response.status === 400) {
                     toast.error(response.data.message);
                 } else {
                     toast.success("اطلاعات بیمار با موفقیت ویرایش گردید");
-                    props.refetch()
-                    props.setIsOpen(false)
+                    props.refetch();
+                    props.setIsOpen(false);
                 }
             },
         });
     };
 
-    if(detailTools?.isLoading) {
-       return <span>درحال بارگزاری</span>
+    if (detailTools?.isLoading) {
+        return <span>درحال بارگزاری</span>;
     }
     return (
         <>
-            {postPatient.isLoading && <Backdrop loading={postPatient.isLoading} />}
+            {postPatient.isLoading && (
+                <Backdrop loading={postPatient.isLoading} />
+            )}
             <Modal isOpen={props.isOpen} onClose={() => props.setIsOpen(false)}>
                 <Formik
-                    initialValues={
-                        {
-                            ...initialValues,
-                            ...detailTools?.data
-                        }
-                    }
+                    initialValues={{
+                        ...initialValues,
+                        ...detailTools?.data,
+                    }}
                     onSubmit={onSubmit}
                 >
                     {({
@@ -74,6 +86,8 @@ const PatientEdit = (props: Props) => {
                         getFieldProps,
                         touched,
                         errors,
+                        values,
+                        setFieldValue,
                     }) => {
                         return (
                             <Form className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 p-8">
@@ -131,18 +145,81 @@ const PatientEdit = (props: Props) => {
                                     name={"tel"}
                                     title="تلفن منزل"
                                 ></Inputs>
-                                <div className="col-span-2">
-                                    <Select
-                                        type="text"
-                                        login={true}
-                                        options={[{ title: "مرد", id: "1" }, { title: "زن", id: "2" }]}
-                                        getFieldProps={getFieldProps}
-                                        touched={touched.gender}
-                                        errors={errors.gender}
-                                        name={"gender"}
-                                        title="جنسیت"
-                                    ></Select>
+                                <div className="flex flex-col mb-8">
+                                    <label className="form-label fs-6 fw-bolder text-dark">
+                                        تاریخ تولد
+                                    </label>
+                                    <MultiDatepicker
+                                        {...getFieldProps("birthDate")}
+                                        id="birthDate"
+                                        name="birthDate"
+                                        locale={persian_fa}
+                                        calendar={persian}
+                                        value={values.birthDate}
+                                        onChange={(
+                                            date:
+                                                | DateObject
+                                                | DateObject[]
+                                                | null
+                                        ) => setFieldValue("birthDate", date)}
+                                        render={
+                                            <input className="form-control bg-transparent" />
+                                        }
+                                    />
                                 </div>
+                                <Inputs
+                                    type="text"
+                                    login={true}
+                                    getFieldProps={getFieldProps}
+                                    touched={touched.job}
+                                    errors={errors.job}
+                                    name={"job"}
+                                    title="شغل"
+                                ></Inputs>
+                                <Inputs
+                                    type="text"
+                                    login={true}
+                                    getFieldProps={getFieldProps}
+                                    touched={touched.education}
+                                    errors={errors.education}
+                                    name={"education"}
+                                    title="تحصیلات"
+                                ></Inputs>
+                                <Inputs
+                                    type="text"
+                                    login={true}
+                                    getFieldProps={getFieldProps}
+                                    touched={touched.representative}
+                                    errors={errors.representative}
+                                    name={"representative"}
+                                    title="معرف"
+                                ></Inputs>
+                                <Select
+                                    type="text"
+                                    login={true}
+                                    options={[
+                                        { title: "مرد", id: "1" },
+                                        { title: "زن", id: "2" },
+                                    ]}
+                                    getFieldProps={getFieldProps}
+                                    touched={touched.gender}
+                                    errors={errors.gender}
+                                    name={"gender"}
+                                    title="جنسیت"
+                                ></Select>
+                                <Select
+                                    type="text"
+                                    login={true}
+                                    options={[
+                                        { title: "مجرد", id: "1" },
+                                        { title: "متاهل", id: "2" },
+                                    ]}
+                                    getFieldProps={getFieldProps}
+                                    touched={touched.maritalStatus}
+                                    errors={errors.maritalStatus}
+                                    name={"maritalStatus"}
+                                    title="وضعیت تاهل"
+                                ></Select>
                                 <div className="col-span-2">
                                     <Textarea
                                         type="text"
@@ -154,7 +231,9 @@ const PatientEdit = (props: Props) => {
                                         title="آدرس"
                                     ></Textarea>
                                 </div>
-                                <div className="col-span-2">                                    <Textarea
+                                <div className="col-span-2">
+                                    {" "}
+                                    <Textarea
                                         type="text"
                                         login={true}
                                         getFieldProps={getFieldProps}

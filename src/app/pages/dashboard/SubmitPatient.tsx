@@ -8,6 +8,10 @@ import { toast } from "react-toastify";
 import Select from "../../modules/auth/components/Select";
 import { createPatientValidations } from "../../modules/patient/_validation";
 import Backdrop from "../../../_cloner/helpers/components/Backdrop";
+import MultiDatepicker, { DateObject } from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
+import moment from 'moment-jalaali'
 
 const initialValues = {
     firstName: "",
@@ -18,14 +22,24 @@ const initialValues = {
     tel: "",
     address: "",
     gender: "2",
+    birthDate: "",
+    job: "",
+    education: "",
+    representative: "",
+    maritalStatus : "2", 
     description: "",
 };
 
 const SubmitPatient = () => {
     const postPatient = usePostPatient();
     const onSubmit = async (values: any) => {
+        const formData = {
+            ...values,
+            birthDate: new Date(values.birthDate)
+        }
+        console.log(formData)
         try {
-            postPatient.mutate(values, {
+            postPatient.mutate(formData, {
                 onSuccess: (response) => {
                     if (response.status === 400) {
                         toast.error(response.data.message);
@@ -55,9 +69,11 @@ const SubmitPatient = () => {
                                 getFieldProps,
                                 touched,
                                 errors,
+                                values, 
+                                setFieldValue
                             }) => {
                                 return (
-                                    <Form className="grid grid-cols-2 gap-x-8">
+                                    <Form className="grid grid-cols-3 gap-x-8">
                                         <Inputs
                                             type="text"
                                             login={true}
@@ -82,26 +98,29 @@ const SubmitPatient = () => {
                                             getFieldProps={getFieldProps}
                                             touched={touched.nationalCode}
                                             errors={errors.nationalCode}
+                                            maxLength={10}
                                             name={"nationalCode"}
                                             title="کدملی"
-                                        ></Inputs>
+                                            ></Inputs>
                                         <Inputs
                                             type="text"
                                             login={true}
                                             getFieldProps={getFieldProps}
                                             touched={touched.mobile}
                                             errors={errors.mobile}
+                                            maxLength={11}
                                             name={"mobile"}
                                             title="تلفن همراه"
-                                        ></Inputs>
+                                            ></Inputs>
                                         <Inputs
                                             type="text"
                                             login={true}
                                             getFieldProps={getFieldProps}
                                             touched={touched.mobile2}
                                             errors={errors.mobile2}
+                                            maxLength={11}
                                             name={"mobile2"}
-                                            title="تلفن همراه ضروری"
+                                            title="تلفن واتساپ"
                                         ></Inputs>
                                         <Inputs
                                             type="text"
@@ -110,7 +129,52 @@ const SubmitPatient = () => {
                                             touched={touched.tel}
                                             errors={errors.tel}
                                             name={"tel"}
+                                            maxLength={16}
                                             title="تلفن منزل"
+                                        ></Inputs>
+                                        <div className="flex flex-col mb-8">
+                                            <label className="form-label fs-6 fw-bolder text-dark">
+                                                تاریخ تولد      
+                                            </label>
+                                            <MultiDatepicker
+                                                {...getFieldProps("birthDate")}
+                                                id="birthDate"
+                                                name='birthDate'
+                                                locale={persian_fa}
+                                                calendar={persian}
+                                                value={values.birthDate}
+                                                onChange={(date: DateObject | DateObject[] | null) => setFieldValue('birthDate', date)}
+                                                render={
+                                                <input className='form-control bg-transparent' />
+                                                }
+                                            />
+                                        </div>
+                                        <Inputs
+                                            type="text"
+                                            login={true}
+                                            getFieldProps={getFieldProps}
+                                            touched={touched.job}
+                                            errors={errors.job}
+                                            name={"job"}
+                                            title="شغل"
+                                        ></Inputs>
+                                        <Inputs
+                                            type="text"
+                                            login={true}
+                                            getFieldProps={getFieldProps}
+                                            touched={touched.education}
+                                            errors={errors.education}
+                                            name={"education"}
+                                            title="تحصیلات"
+                                        ></Inputs>
+                                        <Inputs
+                                            type="text"
+                                            login={true}
+                                            getFieldProps={getFieldProps}
+                                            touched={touched.representative}
+                                            errors={errors.representative}
+                                            name={"representative"}
+                                            title="معرف"
                                         ></Inputs>
                                         <Select
                                             type="text"
@@ -121,6 +185,16 @@ const SubmitPatient = () => {
                                             errors={errors.gender}
                                             name={"gender"}
                                             title="جنسیت"
+                                        ></Select>
+                                        <Select
+                                            type="text"
+                                            login={true}
+                                            options={[{title: "مجرد", id: "1"}, {title: "متاهل", id: "2"}]}
+                                            getFieldProps={getFieldProps}
+                                            touched={touched.maritalStatus}
+                                            errors={errors.maritalStatus}
+                                            name={"maritalStatus"}
+                                            title="وضعیت تاهل"
                                         ></Select>
                                             <Textarea
                                                 type="text"

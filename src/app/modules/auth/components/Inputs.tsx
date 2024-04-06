@@ -22,6 +22,7 @@ const Inputs = (props: any) => {
                 ref={props.ref}
                 name={props.name}
                 disabled={props.disabled}
+                maxLength={props.maxLength}
                 autoComplete="off"
             />
             {props.touched && props.errors && (

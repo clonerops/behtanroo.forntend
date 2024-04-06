@@ -24,7 +24,9 @@ const Select = (props: any) => {
                 disabled={props.disabled}
                 autoComplete="off"
             >
-                <option value={"0"}>همه</option>
+                {props.isAll && 
+                    <option value={"0"}>همه</option>
+                }
                 {props.options.map((item: {id: number, title: string}) => {
                     return <option value={item.id}>{item.title}</option>
                 })}

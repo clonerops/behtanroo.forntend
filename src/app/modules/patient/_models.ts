@@ -10,6 +10,11 @@ export interface IPatient {
     mobile2: string
     tel: string
     address: string
+    birthDate: string
+    job: string
+    education: string
+    representative: string
+    maritalStatus: number
     document?: any
 }
 

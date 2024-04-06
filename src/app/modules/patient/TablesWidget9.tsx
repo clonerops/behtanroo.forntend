@@ -7,6 +7,7 @@ import SubmitDocument from '../../pages/dashboard/SubmitDocument'
 import Backdrop from '../../../_cloner/helpers/components/Backdrop'
 import PatientEdit from '../../pages/dashboard/PatientEdit'
 import { toAbsoluteUrl } from '../../../_cloner/helpers'
+import moment from 'moment-jalaali'
 
 type Props = {
   className: string
@@ -52,15 +53,15 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
       {downloadExcel.isLoading && <Backdrop loading={downloadExcel.isLoading} />}
       <div className={`card ${className}`}>
       <div className='grid grid-cols-1 lg:grid-cols-4 gap-x-4'>
-        <div>
+        {/* <div>
               <img 
                 src={toAbsoluteUrl('/media/logos/doc14.png')}
                 width={400}
                 className='rounded-lg'
               />
           </div>
-
-          <div className='lg:col-span-3'>
+ */}
+          <div className='lg:col-span-4'>
             {/* begin::Header */}
             <div className='flex justify-between items-center m-8'>
             <div className='w-[50%] '>
@@ -150,6 +151,31 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
                         <td className="p-0">
                           <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
                             {item.tel}
+                          </a>
+                        </td>
+                        <td className="p-0">
+                          <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                            {moment(item.birthDate).format('jYYYY/jMM/jDD')}
+                          </a>
+                        </td>
+                        <td className="p-0">
+                          <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                            {item.job}
+                          </a>
+                        </td>
+                        <td className="p-0">
+                          <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                            {item.education}
+                          </a>
+                        </td>
+                        <td className="p-0">
+                          <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                            {item.representative}
+                          </a>
+                        </td>
+                        <td className="p-0">
+                          <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                          {item.maritalStatus == 2 ? " متاهل " : "مجرد"}
                           </a>
                         </td>
                         <td>
