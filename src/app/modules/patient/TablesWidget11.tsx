@@ -46,6 +46,18 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
       }
     })
   }
+  const handleUploadDocument = (patientId: any, documentId: any) => {
+    const formData = {
+      patientId, 
+      documentId
+    }
+    deletePatientDocument.mutate(formData, {
+      onSuccess: (response) => {
+        patients.refetch()
+        toast.success(response.message);
+      }
+    })
+  }
 
   if (patients.isLoading) {
     return <div>درحال بارگزاری ...</div>
@@ -140,6 +152,9 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
                         <button onClick={() => handleDeletePatientDocument(item.patient?.id, item.document?.id)} className='bg-red-500 px-4 py-2 rounded-md text-white'>
                           <span>حذف</span>
                         </button>
+                        {/* <button onClick={() => handleUploadDocument(item.patient?.id, item.document?.id)} className='bg-blue-500 px-4 py-2 rounded-md text-white'>
+                          <span>افزودن ضمیمه</span>
+                        </button> */}
 
                       </div>
                     </td>
