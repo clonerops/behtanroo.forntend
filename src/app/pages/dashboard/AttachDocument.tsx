@@ -2,7 +2,7 @@ import moment from "moment-jalaali";
 import Modal from "../../../_cloner/helpers/components/Modal";
 import { IPatientDocument } from "../../modules/patient/_models";
 import { Form, Formik } from "formik";
-import { usePostReferral, useUploadPatientDocumentFile } from "../../modules/patient/_hooks";
+import { useGetPatientDocumentById, usePostReferral, useUploadPatientDocumentFile } from "../../modules/patient/_hooks";
 import { toast } from "react-toastify";
 import Backdrop from "../../../_cloner/helpers/components/Backdrop";
 import FileUpload from "../../../_cloner/helpers/components/FileUpload";
@@ -23,6 +23,7 @@ type Props = {
 
 const AttachDocument = (props: Props) => {
 
+    const detailTools = useGetPatientDocumentById(props?.item?.patient?.id, props?.item?.document?.id)
     const uploadFile = useUploadPatientDocumentFile()
     const [files, setFiles] = useState<File[]>([]);
 
@@ -52,6 +53,8 @@ const AttachDocument = (props: Props) => {
             console.log(error)
         }
     }
+
+    console.log(detailTools?.data?.data)
 
     return (
         <>

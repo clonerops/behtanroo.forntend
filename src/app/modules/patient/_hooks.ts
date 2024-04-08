@@ -64,7 +64,7 @@ export const useGetPatientDocuments = () => {
     return useQuery(['patientDocuments'], () => api.getPatientDocuments())
 }
 
-export const useGetPatientDocumentById = (patientId: string, documentId: string) => {
+export const useGetPatientDocumentById = (patientId: any, documentId: any) => {
     return useQuery(['patientDocument', patientId, documentId], () => api.getPatientDocumentById(patientId, documentId))
 }
 
