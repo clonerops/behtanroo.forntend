@@ -73,3 +73,9 @@ export const useDeletePatientDocument = () => {
         return api.deletePatientDocument(formData.patientId, formData.documentId)
     })
 }
+
+export const useUploadPatientDocumentFile = () => {
+    return useMutation((formData: IPatientDocument) => {
+        return api.uploadPatientDocumentFile(formData)
+    })
+}

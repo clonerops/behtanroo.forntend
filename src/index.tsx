@@ -9,6 +9,7 @@ import './_cloner/assets/css/tailwindcss.css'
 import {AppRoutes} from './app/routing/AppRoutes'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-medium-image-zoom/dist/styles.css'
 
 Chart.register(...registerables)
 

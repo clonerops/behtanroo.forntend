@@ -37,6 +37,7 @@ export interface IPatientDocument {
     documentId?: number
     documentCode?: number
     description: string
+    image?: any
     patient?: IPatient
     document?: IDocument
 }

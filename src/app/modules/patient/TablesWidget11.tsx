@@ -9,6 +9,7 @@ import FuzzySearch from '../../../_cloner/helpers/Fuse'
 import SubmitDocument from '../../pages/dashboard/SubmitDocument'
 import { toast } from 'react-toastify'
 import Backdrop from '../../../_cloner/helpers/components/Backdrop'
+import AttachDocument from '../../pages/dashboard/AttachDocument'
 
 type Props = {
   className: string
@@ -22,6 +23,7 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
   const patients = useGetPatientDocuments()
   const deletePatientDocument = useDeletePatientDocument()
   const [open, setIsOpen] = useState<boolean>(false)
+  const [openAttach, setIsOpenAttach] = useState<boolean>(false)
   const [items, setItems] = useState<any>()
   const [results, setResults] = useState<any[]>([]);
 
@@ -32,6 +34,10 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
   const handleOpenModal = (item: IPatientDocument) => {
     setItems(item)
     setIsOpen(true)
+  }
+  const handleOpenAttachModal = (item: IPatientDocument) => {
+    setItems(item)
+    setIsOpenAttach(true)
   }
 
   const handleDeletePatientDocument = (patientId: any, documentId: any) => {
@@ -140,6 +146,9 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
                         <button onClick={() => handleDeletePatientDocument(item.patient?.id, item.document?.id)} className='bg-red-500 px-4 py-2 rounded-md text-white'>
                           <span>حذف</span>
                         </button>
+                        <button onClick={() => handleOpenAttachModal(item)} className='bg-blue-500 px-4 py-2 rounded-md text-white'>
+                          <span>افزودن ضمیمه</span>
+                        </button>
 
                       </div>
                     </td>
@@ -153,6 +162,7 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
           {/* end::Table container */}
         </div>
         <SubmitReferral item={items} isOpen={open} setIsOpen={setIsOpen} />
+        <AttachDocument item={items} isOpen={openAttach} setIsOpen={setIsOpenAttach} />
         {/* begin::Body */}
       </div>
     </>

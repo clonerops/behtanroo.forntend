@@ -100,3 +100,13 @@ export const deletePatientDocument = async (patientId: number, documentId: numbe
     const {data} = await http.delete(`/patientdocument/patient/${patientId}/document/${documentId}`);
     return data
 }
+
+export const uploadPatientDocumentFile = async (formData: IPatientDocument) => {
+    try {
+        const {data} = await httpFormData.put('/patientdocument/uploadFile', formData)
+        return data        
+    } catch (error) {
+        if(error instanceof Error)
+            return error
+    }
+}
