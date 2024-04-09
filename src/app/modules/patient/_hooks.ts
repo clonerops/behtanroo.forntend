@@ -15,13 +15,25 @@ export const usePutPatient = () => {
 }
 
 export const useGetPatients = () => {
-    return useQuery(['patients'], () => api.getPatients())
+    return useQuery(['patients'], () => api.getPatients(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
 }
 export const useGetPatient = (id: number) => {
-    return useQuery(['patient', id], () => api.getPatient(id))
+    return useQuery(['patient', id], () => api.getPatient(id), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
 }
 export const useGetDocument = (id: string) => {
-    return useQuery(['document', id], () => api.getDocument(id))
+    return useQuery(['document', id], () => api.getDocument(id), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
 }
 
 export const useDownloadExportExcel = () => {
@@ -38,10 +50,18 @@ export const usePostReferral = () => {
 }
 
 export const useGetReferrals = () => {
-    return useQuery(['referrals'], () => api.getReferrals())
+    return useQuery(['referrals'], () => api.getReferrals(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
 }
 export const useGetReferral = (id: string) => {
-    return useQuery(['referral', id], () => api.getReferral(id))
+    return useQuery(['referral', id], () => api.getReferral(id), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
 }
 export const useGetReferralByPatient = (id: string) => {
     return useQuery(['referralByPatient', id], () => api.getReferralByPatient(id))
@@ -50,7 +70,11 @@ export const useGetReferralByPatientAndDocument = (patientId: number, documentId
     return useQuery(['referralByPatientAndDocument', patientId, documentId], () => api.getReferralByPatientAndDocument(patientId, documentId))
 }
 export const useGetDocuments = () => {
-    return useQuery(['documents'], () => api.getDocuments())
+    return useQuery(['documents'], () => api.getDocuments(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
 }
 
 // Patient Document
@@ -61,11 +85,19 @@ export const usePostPatientDocument = () => {
 }
 
 export const useGetPatientDocuments = () => {
-    return useQuery(['patientDocuments'], () => api.getPatientDocuments())
+    return useQuery(['patientDocuments'], () => api.getPatientDocuments(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
 }
 
 export const useGetPatientDocumentById = (patientId: any, documentId: any) => {
-    return useQuery(['patientDocument', patientId, documentId], () => api.getPatientDocumentById(patientId, documentId))
+    return useQuery(['patientDocument', patientId, documentId], () => api.getPatientDocumentById(patientId, documentId), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
 }
 
 export const useDeletePatientDocument = () => {

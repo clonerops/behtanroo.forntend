@@ -6,8 +6,10 @@ import { useGetPatientDocumentById, usePostReferral, useUploadPatientDocumentFil
 import { toast } from "react-toastify";
 import Backdrop from "../../../_cloner/helpers/components/Backdrop";
 import FileUpload from "../../../_cloner/helpers/components/FileUpload";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Zoom from 'react-medium-image-zoom'
+import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePNG } from "../../../_cloner/helpers/DownloadFiles";
+import useBase64toFile from "../../../_cloner/helpers/convertBaseToFile";
 
 const initialValues = {
     referralDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
@@ -26,6 +28,7 @@ const AttachDocument = (props: Props) => {
     const detailTools = useGetPatientDocumentById(props?.item?.patient?.id, props?.item?.document?.id)
     const uploadFile = useUploadPatientDocumentFile()
     const [files, setFiles] = useState<File[]>([]);
+    const convertBase64ToFile = useBase64toFile()
 
 
     const onSubmit = async (values: any) => {
@@ -53,8 +56,57 @@ const AttachDocument = (props: Props) => {
             console.log(error)
         }
     }
+    var signatures: any = {
+        JVBERi0: "application/pdf",
+        R0lGODdh: "image/gif",
+        R0lGODlh: "image/gif",
+        iVBORw0KGgo: "image/png",
+        "/9j/": "image/jpg"
+    };
 
-    console.log(detailTools?.data?.data)
+    function detectMimeType(b64: any) {
+        for (var s in signatures) {
+            if (b64.indexOf(s) === 0) {
+                return signatures[s];
+            }
+        }
+    }
+    const hadelDownload = () => {
+        if (detailTools?.data?.data?.attachments?.length === 0) {
+            alert("فایلی برای دانلود وجود ندارد")
+        } else {
+            detailTools?.data?.data?.attachments?.forEach((element: any) => {
+                switch (detectMimeType(element.attachment)) {
+                    case "image/png":
+                        const outputFilenamePng = `filesattachments${Date.now()}.png`;
+                        DownloadFilePNG(element.attachment, outputFilenamePng)
+                        break;
+                    case "image/jpg":
+                        const outputFilenameJpg = `filesattachments${Date.now()}.jpg`;
+                        DownloadFileJPG(element.attachment, outputFilenameJpg)
+                        break;
+                    case "image/jpeg":
+                        const outputFilenameJpeg = `filesattachments${Date.now()}.jpeg`;
+                        DownloadFileJPEG(element.attachment, outputFilenameJpeg)
+                        break;
+
+                    default:
+                        break;
+                }
+            });
+            props.setIsOpen(false)
+        }
+    };
+
+    useEffect(() => {
+        if (detailTools.isLoading) {
+            setFiles([])
+        } else {
+            setFiles(detailTools?.data?.data?.attachments?.map((item: { attachment: string }) => convertBase64ToFile(item.attachment, "example.jpg")))
+        }
+        // eslint-disable-next-line
+    }, [detailTools?.isLoading])
+
 
     return (
         <>
@@ -80,28 +132,23 @@ const AttachDocument = (props: Props) => {
                             <Form className="grid grid-cols-2 gap-x-8 mx-16 my-8">
                                 <FileUpload files={files} setFiles={setFiles} />
                                 <div>
-                                    <button
-                                        type="submit"
-                                        id="kt_sign_in_submit"
-                                        className="btn btn-primary"
-                                    >
-                                        {uploadFile.isLoading ? "درحال پردازش" : "ثبت ضمیمه"}
-                                    </button>
+                                    {/* {detailTools?.data?.data?.attachments.length > 0 ? null :  */}
+                                        <button
+                                            type="submit"
+                                            id="kt_sign_in_submit"
+                                            className="btn !bg-green-500 text-white"
+                                        >
+                                            {uploadFile.isLoading ? "درحال پردازش" : "ثبت ضمیمه"}
+                                        </button>
+                                    {/* } */}
                                 </div>
+                                <button onClick={hadelDownload} className='btn btn-primary mt-8' >
+                                    <span>{"دانلود ضمیمه ها"}</span>
+                                </button>
                             </Form>
                         );
                     }}
                 </Formik>
-                <div>
-                <Zoom>
-                    <img
-                        alt="That Wanaka Tree, New Zealand by Laura Smetsers"
-                        src={`${window.location.origin}/${props?.item?.image}`}
-                        width="500"
-                    />
-                </Zoom>
-
-                </div>
             </Modal>
         </>
     );

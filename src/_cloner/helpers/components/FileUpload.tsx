@@ -58,7 +58,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles,title="فایل
               <img
                 src={URL.createObjectURL(file)}
                 alt={file.name}
-                style={{ maxWidth: '50%', maxHeight: '50px' }}
+                style={{ maxWidth: '100%', maxHeight: '100px' }}
               />
               <button
                 className="pr-16"
