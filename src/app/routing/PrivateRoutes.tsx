@@ -9,6 +9,7 @@ import PatientFormPrint from '../pages/dashboard/PatientFormPrint'
 import PatientReport from '../modules/report/PatientReport'
 import PatientReportByReferral from '../modules/report/PatientReportByReferral'
 import PatientDetail from '../pages/dashboard/PatientDetail'
+import SkinForm from '../modules/patient/SkinForm'
 
 const PrivateRoutes = () => {
 
@@ -27,6 +28,7 @@ const PrivateRoutes = () => {
         <Route path='dashboard/patientFormPrint/:patientId/:documentId' element={<PatientFormPrint />} />
         <Route path='dashboard/patientReport' element={<PatientReport />} />
         <Route path='dashboard/patientReportByReferral' element={<PatientReportByReferral />} />
+        <Route path='dashboard/skinForm' element={<SkinForm />} />
         {/* Lazy Modules */}
         {/* Page Not Found */}
         <Route path='*' element={<Navigate to='/error/404' />} />
