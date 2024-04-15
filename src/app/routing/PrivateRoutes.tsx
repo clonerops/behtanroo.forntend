@@ -9,7 +9,10 @@ import PatientFormPrint from '../pages/dashboard/PatientFormPrint'
 import PatientReport from '../modules/report/PatientReport'
 import PatientReportByReferral from '../modules/report/PatientReportByReferral'
 import PatientDetail from '../pages/dashboard/PatientDetail'
-import SkinForm from '../modules/patient/SkinForm'
+import SkinForm from '../modules/patient/SkinFormPrint'
+import LazerFormPrint from '../modules/patient/LazerFormPrint'
+import MidWirfyFormPrint from '../modules/patient/MidWirfyFormPrint'
+import FacialFormPrint from '../modules/patient/FacialFormPrint'
 
 const PrivateRoutes = () => {
 
@@ -28,7 +31,13 @@ const PrivateRoutes = () => {
         <Route path='dashboard/patientFormPrint/:patientId/:documentId' element={<PatientFormPrint />} />
         <Route path='dashboard/patientReport' element={<PatientReport />} />
         <Route path='dashboard/patientReportByReferral' element={<PatientReportByReferral />} />
-        <Route path='dashboard/skinForm' element={<SkinForm />} />
+        {/* <Route path='dashboard/skinFormPrint' element={<SkinForm />} /> */}
+        <Route path='dashboard/skinFormPrint/:patientId/:documentId' element={<SkinForm />} />
+
+        {/* <Route path='dashboard/lazerFormPrint' element={<LazerFormPrint />} /> */}
+        <Route path='dashboard/lazerFormPrint/:patientId/:documentId' element={<LazerFormPrint />} />
+        <Route path='dashboard/midWirfyFormPrint/:patientId/:documentId' element={<MidWirfyFormPrint />} />
+        <Route path='dashboard/facialFormPrint/:patientId/:documentId' element={<FacialFormPrint />} />
         {/* Lazy Modules */}
         {/* Page Not Found */}
         <Route path='*' element={<Navigate to='/error/404' />} />
