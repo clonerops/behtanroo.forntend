@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react'
-import { useDownloadExportExcel, useGetPatients } from './_hooks'
+import { useDeletePatient, useDownloadExportExcel, useGetPatients } from './_hooks'
 import { IPatient } from './_models'
 import FuzzySearch from '../../../_cloner/helpers/Fuse'
 import SubmitDocument from '../../pages/dashboard/SubmitDocument'
@@ -26,11 +26,17 @@ const tooltip2 = (
     <strong>ویرایش</strong>
   </Tooltip>
 );
+const tooltip3 = (
+  <Tooltip id="tooltip">
+    <strong>حذف</strong>
+  </Tooltip>
+);
 
 
 const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
   const patients = useGetPatients()
   const downloadExcel = useDownloadExportExcel()
+  const deletePatient = useDeletePatient()
   const [open, setIsOpen] = useState<boolean>(false)
   const [editOpen, setIsEditOpen] = useState<boolean>(false)
   const [items, setItems] = useState<any>()
@@ -53,6 +59,11 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
 
   const handleDownloadExcel = async () => {
     downloadExcel.mutate()
+  }
+
+  const handleDelete = (id: number) => {
+    deletePatient.mutate(id)
+    patients.refetch()
   }
 
   if (patients.isLoading) {
@@ -134,6 +145,11 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
                             <OverlayTrigger placement="top" overlay={tooltip2}>
                               <button onClick={() => handleEditOpenModal(item)} className='bg-yellow-500 px-4 py-2 rounded-md text-white'>
                                 <img src={toAbsoluteUrl('/media/icons/duotune/art/art002.svg')} width={20} height={20} />
+                              </button>
+                              </OverlayTrigger>
+                            <OverlayTrigger placement="top" overlay={tooltip3}>
+                              <button onClick={() => handleDelete(item.id ? item.id : 0)} className='bg-red-500 px-4 py-2 rounded-md text-white'>
+                                <img src={toAbsoluteUrl('/media/icons/duotune/art/art003.svg')} width={20} height={20} />
                               </button>
                               </OverlayTrigger>
                           </div>

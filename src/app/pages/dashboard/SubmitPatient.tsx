@@ -12,6 +12,7 @@ import MultiDatepicker, { DateObject } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import moment from 'moment-jalaali'
+import clsx from "clsx";
 
 const initialValues = {
     firstName: "",
@@ -37,7 +38,6 @@ const SubmitPatient = () => {
             ...values,
             birthDate: new Date(values.birthDate)
         }
-        console.log(formData)
         try {
             postPatient.mutate(formData, {
                 onSuccess: (response) => {
@@ -145,9 +145,27 @@ const SubmitPatient = () => {
                                                 value={values.birthDate}
                                                 onChange={(date: DateObject | DateObject[] | null) => setFieldValue('birthDate', date)}
                                                 render={
-                                                <input className='form-control bg-transparent' />
+                                                <input 
+                                                    className={clsx(
+                                                        "form-control bg-transparent",
+                                                        {
+                                                            "is-invalid": touched.birthDate && errors.birthDate,
+                                                        },
+                                                        {
+                                                            "is-valid": touched.birthDate && !errors.birthDate,
+                                                        }
+                                                )}
+                                
+                                                    
+                                                />
                                                 }
                                             />
+                                            {touched.birthDate && errors.birthDate && (
+                                                <div className="fv-plugins-message-container">
+                                                    <span role="alert">{errors.birthDate}</span>
+                                                </div>
+                                            )}
+
                                         </div>
                                         <Inputs
                                             type="text"

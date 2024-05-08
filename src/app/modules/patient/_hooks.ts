@@ -36,6 +36,12 @@ export const useGetDocument = (id: string) => {
     })
 }
 
+export const useDeletePatient = () => {
+    return useMutation((id: number) => {
+        return api.deletePatient(id)
+    })
+}
+
 export const useDownloadExportExcel = () => {
     return useMutation(() => {
         return api.downloadExcelPatiets()

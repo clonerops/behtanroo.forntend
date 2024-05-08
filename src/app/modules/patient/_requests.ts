@@ -18,6 +18,14 @@ export const putPatient = async (formData: IPatient) => {
             return error.response
     }
 }
+export const deletePatient = async (id: number) => {
+    try {
+        const {data} = await http.delete(`/patient/${id}`)
+        return data        
+    } catch (error: any) {
+            return error.response
+    }
+}
 
 export const getPatients = async () => {
     const {data} = await http.get('/patient/lists');
