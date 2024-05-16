@@ -9,6 +9,7 @@ import PatientEdit from '../../pages/dashboard/PatientEdit'
 import { toAbsoluteUrl } from '../../../_cloner/helpers'
 import moment from 'moment-jalaali'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
+import Modal from '../../../_cloner/helpers/components/Modal'
 
 type Props = {
   className: string
@@ -39,6 +40,7 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
   const deletePatient = useDeletePatient()
   const [open, setIsOpen] = useState<boolean>(false)
   const [editOpen, setIsEditOpen] = useState<boolean>(false)
+  const [isOpenDelete, setIsOpenDelete] = useState<boolean>(false)
   const [items, setItems] = useState<any>()
   const [editItems, setEditItems] = useState<any>()
   const [results, setResults] = useState<any[]>([]);
@@ -56,6 +58,11 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
     setEditItems(item)
     setIsEditOpen(true)
   }
+  const handleOpenDeleteModal = (item: IPatient) => {
+    setItems(item)
+    setIsOpenDelete(true)
+  }
+
 
   const handleDownloadExcel = async () => {
     downloadExcel.mutate()
@@ -66,6 +73,7 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
       onSuccess: (res) => {
         if(res.success) {
           patients.refetch()
+          setIsOpenDelete(false)
         }
       }
     })
@@ -154,7 +162,7 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
                               </button>
                               </OverlayTrigger>
                             <OverlayTrigger placement="top" overlay={tooltip3}>
-                              <button onClick={() => handleDelete(item.id ? item.id : 0)} className='bg-red-500 px-4 py-2 rounded-md text-white'>
+                              <button onClick={() => handleOpenDeleteModal(item)} className='bg-red-500 px-4 py-2 rounded-md text-white'>
                                 <img src={toAbsoluteUrl('/media/icons/duotune/art/art003.svg')} width={20} height={20} />
                               </button>
                               </OverlayTrigger>
@@ -241,6 +249,20 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
             </div>
             <SubmitDocument item={items} isOpen={open} setIsOpen={setIsOpen} />
             <PatientEdit item={editItems} isOpen={editOpen} setIsOpen={setIsEditOpen} refetch={patients.refetch} />
+            <Modal reqular isOpen={isOpenDelete} onClose={() => setIsOpenDelete(false)}>
+              <div className='flex flex-col justify-center items-center py-16'>
+                <p className='font-bold text-red-500 text-lg py-8'>آیا از حذف مطمئن هستید؟</p>
+                <div className='flex justify-end items-end gap-4'>
+                  <button onClick={() => handleDelete(items.id ? items.id : 0)} className='bg-red-500 px-4 py-2 rounded-md text-white w-max'>
+                      بله! حذف کن
+                  </button>  
+                  <button onClick={() => setIsOpenDelete(false)} className='bg-yellow-500 px-4 py-2 rounded-md text-white w-max'>
+                      انصراف
+                  </button>  
+                </div>  
+              </div>    
+            </Modal>
+
             {/* begin::Body */}
           </div>
       </div>

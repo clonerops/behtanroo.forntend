@@ -11,6 +11,7 @@ import { toast } from 'react-toastify'
 import Backdrop from '../../../_cloner/helpers/components/Backdrop'
 import AttachDocument from '../../pages/dashboard/AttachDocument'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
+import Modal from '../../../_cloner/helpers/components/Modal'
 
 type Props = {
   className: string
@@ -50,6 +51,7 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
   const patientDocuments = useGetPatientDocuments()
   const deletePatientDocument = useDeletePatientDocument()
   const [open, setIsOpen] = useState<boolean>(false)
+  const [isOpenDelete, setIsOpenDelete] = useState<boolean>(false)
   const [openAttach, setIsOpenAttach] = useState<boolean>(false)
   const [items, setItems] = useState<any>()
   const [results, setResults] = useState<any[]>([]);
@@ -66,6 +68,10 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
     setItems(item)
     setIsOpenAttach(true)
   }
+  const handleOpenDeleteModal = (item: IPatientDocument) => {
+    setItems(item)
+    setIsOpenDelete(true)
+  }
 
   const handleDeletePatientDocument = (patientId: any, documentId: any) => {
     const formData = {
@@ -77,6 +83,7 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
         if(response.success) {
           toast.success(response.message);
           patientDocuments.refetch()
+          setIsOpenDelete(false)
         }
       }
     })
@@ -182,7 +189,7 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
                           </Link>
                         </OverlayTrigger>
                         <OverlayTrigger placement="top" overlay={tooltip4}>
-                          <button onClick={() => handleDeletePatientDocument(item.patient?.id, item.document?.id)} className='bg-red-500 px-4 py-2 rounded-md text-white w-max'>
+                          <button onClick={() => handleOpenDeleteModal(item)} className='bg-red-500 px-4 py-2 rounded-md text-white w-max'>
                             <img src={toAbsoluteUrl('/media/icons/duotune/art/art003.svg')} width={20} height={20} />
                           </button>
                         </OverlayTrigger>
@@ -205,6 +212,19 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
         </div>
         <SubmitReferral item={items} isOpen={open} setIsOpen={setIsOpen} />
         <AttachDocument item={items} isOpen={openAttach} setIsOpen={setIsOpenAttach} />
+        <Modal reqular isOpen={isOpenDelete} onClose={() => setIsOpenDelete(false)}>
+              <div className='flex flex-col justify-center items-center py-16'>
+                <p className='font-bold text-red-500 text-lg py-8'>آیا از حذف مطمئن هستید؟</p>
+                <div className='flex justify-end items-end gap-4'>
+                  <button onClick={() => handleDeletePatientDocument(items.patient?.id, items.document?.id)} className='bg-red-500 px-4 py-2 rounded-md text-white w-max'>
+                      بله! حذف کن
+                  </button>  
+                  <button onClick={() => setIsOpenDelete(false)} className='bg-yellow-500 px-4 py-2 rounded-md text-white w-max'>
+                      انصراف
+                  </button>  
+                </div>  
+              </div>    
+        </Modal>
         {/* begin::Body */}
       </div>
     </>
