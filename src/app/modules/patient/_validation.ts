@@ -17,7 +17,6 @@ const createPatientValidations = Yup.object().shape({
     education: Yup.string().required("تحصیلات الزامی است"),
     representative: Yup.string().required("معرف الزامی است"),
     maritalStatus: Yup.string().required("وضعیت تاهل الزامی است"),
-    description: Yup.string().required("توضیحات الزامی است"),
 });
 
 export { createPatientValidations };

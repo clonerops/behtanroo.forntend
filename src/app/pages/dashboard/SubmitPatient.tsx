@@ -11,8 +11,11 @@ import Backdrop from "../../../_cloner/helpers/components/Backdrop";
 import MultiDatepicker, { DateObject } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
-import moment from 'moment-jalaali'
+import moment from "moment-jalaali";
 import clsx from "clsx";
+import { Spinner } from "react-bootstrap";
+import SubmitDocument from "./SubmitDocument";
+import { useState } from "react";
 
 const initialValues = {
     firstName: "",
@@ -27,17 +30,19 @@ const initialValues = {
     job: "",
     education: "",
     representative: "",
-    maritalStatus : "2", 
+    maritalStatus: "2",
     description: "",
 };
 
 const SubmitPatient = () => {
     const postPatient = usePostPatient();
+    const [open, setIsOpen] = useState<boolean>(false)
+
     const onSubmit = async (values: any) => {
         const formData = {
             ...values,
-            birthDate: new Date(values.birthDate)
-        }
+            birthDate: new Date(values.birthDate),
+        };
         try {
             postPatient.mutate(formData, {
                 onSuccess: (response) => {
@@ -55,7 +60,6 @@ const SubmitPatient = () => {
 
     return (
         <div>
-            {postPatient.isLoading && <Backdrop loading={postPatient.isLoading} />}
             <Card6 image="" title="ثبت اطلاعات بیمار">
                 <div className="grid md:grid-cols-3 grid-cols-1 gap-x-8">
                     <div className="col-span-2">
@@ -65,12 +69,11 @@ const SubmitPatient = () => {
                             validationSchema={createPatientValidations}
                         >
                             {({
-                                handleSubmit,
                                 getFieldProps,
                                 touched,
                                 errors,
-                                values, 
-                                setFieldValue
+                                values,
+                                setFieldValue,
                             }) => {
                                 return (
                                     <Form className="grid grid-cols-3 gap-x-8">
@@ -101,7 +104,7 @@ const SubmitPatient = () => {
                                             maxLength={10}
                                             name={"nationalCode"}
                                             title="کدملی"
-                                            ></Inputs>
+                                        ></Inputs>
                                         <Inputs
                                             type="text"
                                             login={true}
@@ -111,7 +114,7 @@ const SubmitPatient = () => {
                                             maxLength={11}
                                             name={"mobile"}
                                             title="تلفن همراه"
-                                            ></Inputs>
+                                        ></Inputs>
                                         <Inputs
                                             type="text"
                                             login={true}
@@ -134,38 +137,52 @@ const SubmitPatient = () => {
                                         ></Inputs>
                                         <div className="flex flex-col mb-8">
                                             <label className="form-label fs-6 fw-bolder text-dark">
-                                                تاریخ تولد      
+                                                تاریخ تولد
                                             </label>
                                             <MultiDatepicker
                                                 {...getFieldProps("birthDate")}
                                                 id="birthDate"
-                                                name='birthDate'
+                                                name="birthDate"
                                                 locale={persian_fa}
                                                 calendar={persian}
                                                 value={values.birthDate}
-                                                onChange={(date: DateObject | DateObject[] | null) => setFieldValue('birthDate', date)}
+                                                onChange={(
+                                                    date:
+                                                        | DateObject
+                                                        | DateObject[]
+                                                        | null
+                                                ) =>
+                                                    setFieldValue(
+                                                        "birthDate",
+                                                        date
+                                                    )
+                                                }
                                                 render={
-                                                <input 
-                                                    className={clsx(
-                                                        "form-control bg-transparent",
-                                                        {
-                                                            "is-invalid": touched.birthDate && errors.birthDate,
-                                                        },
-                                                        {
-                                                            "is-valid": touched.birthDate && !errors.birthDate,
-                                                        }
-                                                )}
-                                
-                                                    
-                                                />
+                                                    <input
+                                                        className={clsx(
+                                                            "form-control bg-transparent",
+                                                            {
+                                                                "is-invalid":
+                                                                    touched.birthDate &&
+                                                                    errors.birthDate,
+                                                            },
+                                                            {
+                                                                "is-valid":
+                                                                    touched.birthDate &&
+                                                                    !errors.birthDate,
+                                                            }
+                                                        )}
+                                                    />
                                                 }
                                             />
-                                            {touched.birthDate && errors.birthDate && (
-                                                <div className="fv-plugins-message-container">
-                                                    <span role="alert">{errors.birthDate}</span>
-                                                </div>
-                                            )}
-
+                                            {touched.birthDate &&
+                                                errors.birthDate && (
+                                                    <div className="fv-plugins-message-container">
+                                                        <span role="alert">
+                                                            {errors.birthDate}
+                                                        </span>
+                                                    </div>
+                                                )}
                                         </div>
                                         <Inputs
                                             type="text"
@@ -197,7 +214,10 @@ const SubmitPatient = () => {
                                         <Select
                                             type="text"
                                             login={true}
-                                            options={[{title: "مرد", id: "1"}, {title: "زن", id: "2"}]}
+                                            options={[
+                                                { title: "مرد", id: "1" },
+                                                { title: "زن", id: "2" },
+                                            ]}
                                             getFieldProps={getFieldProps}
                                             touched={touched.gender}
                                             errors={errors.gender}
@@ -207,22 +227,25 @@ const SubmitPatient = () => {
                                         <Select
                                             type="text"
                                             login={true}
-                                            options={[{title: "مجرد", id: "1"}, {title: "متاهل", id: "2"}]}
+                                            options={[
+                                                { title: "مجرد", id: "1" },
+                                                { title: "متاهل", id: "2" },
+                                            ]}
                                             getFieldProps={getFieldProps}
                                             touched={touched.maritalStatus}
                                             errors={errors.maritalStatus}
                                             name={"maritalStatus"}
                                             title="وضعیت تاهل"
                                         ></Select>
-                                            <Textarea
-                                                type="text"
-                                                login={true}
-                                                getFieldProps={getFieldProps}
-                                                touched={touched.address}
-                                                errors={errors.address}
-                                                name={"address"}
-                                                title="آدرس"
-                                            ></Textarea>
+                                        <Textarea
+                                            type="text"
+                                            login={true}
+                                            getFieldProps={getFieldProps}
+                                            touched={touched.address}
+                                            errors={errors.address}
+                                            name={"address"}
+                                            title="آدرس"
+                                        ></Textarea>
                                         <div className="col-span-2">
                                             <Textarea
                                                 type="text"
@@ -235,21 +258,51 @@ const SubmitPatient = () => {
                                             ></Textarea>
                                         </div>
 
-                                        <div>
+                                        <div className="flex flex-row gap-x-4">
                                             <button
                                                 type="submit"
                                                 id="kt_sign_in_submit"
                                                 className="btn btn-primary"
+                                                disabled={postPatient.isLoading || postPatient?.data?.data}
                                             >
-                                                {postPatient.isLoading
-                                                    ? "درحال پردازش"
-                                                    : "ثبت اطلاعات"}
+                                                {postPatient.isLoading ? (
+                                                    <span
+                                                        className="indicator-progress"
+                                                        style={{
+                                                            display: "block",
+                                                        }}
+                                                    >
+                                                        درحال پردازش...
+                                                        <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                                    </span>
+                                                ) : (
+                                                    <span>ثبت اطلاعات</span>
+                                                )}
                                             </button>
+
+
                                         </div>
                                     </Form>
                                 );
                             }}
                         </Formik>
+                        {postPatient?.data?.succeseded && 
+                                            <button
+                                            className="btn btn-warning mt-4"
+                                            onClick={() => setIsOpen(true)}
+                                            disabled={postPatient.isLoading}
+                                        >
+                                                <span
+                                                    style={{
+                                                        display: "block",
+                                                    }}
+                                                >
+                                                    ثبت پرونده
+                                                </span>
+                                        </button>
+
+}
+
                     </div>
                     <div>
                         <div className="flex justify-center items-center">
@@ -263,6 +316,8 @@ const SubmitPatient = () => {
                     </div>
                 </div>
             </Card6>
+            <SubmitDocument item={postPatient.data?.data} isOpen={open} setIsOpen={setIsOpen} />
+
         </div>
     );
 };

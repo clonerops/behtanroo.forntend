@@ -62,8 +62,13 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
   }
 
   const handleDelete = (id: number) => {
-    deletePatient.mutate(id)
-    patients.refetch()
+    deletePatient.mutate(id, {
+      onSuccess: (res) => {
+        if(res.success) {
+          patients.refetch()
+        }
+      }
+    })
   }
 
   if (patients.isLoading) {
@@ -73,6 +78,7 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
   return (
     <>
       {downloadExcel.isLoading && <Backdrop loading={downloadExcel.isLoading} />}
+      {deletePatient.isLoading && <Backdrop loading={deletePatient.isLoading} />}
       <div className={`card ${className}`}>
       <div className='grid grid-cols-1 lg:grid-cols-4 gap-x-4'>
         {/* <div>

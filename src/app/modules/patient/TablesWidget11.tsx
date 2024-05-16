@@ -10,6 +10,7 @@ import SubmitDocument from '../../pages/dashboard/SubmitDocument'
 import { toast } from 'react-toastify'
 import Backdrop from '../../../_cloner/helpers/components/Backdrop'
 import AttachDocument from '../../pages/dashboard/AttachDocument'
+import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 
 type Props = {
   className: string
@@ -17,10 +18,36 @@ type Props = {
   columns: any[]
 }
 
+const tooltip1 = (
+  <Tooltip id="tooltip">
+    <strong>پرینت پرونده</strong>
+  </Tooltip>
+);
+const tooltip2 = (
+  <Tooltip id="tooltip">
+    <strong>ثبت مراجعات</strong>
+  </Tooltip>
+);
+const tooltip3 = (
+  <Tooltip id="tooltip">
+    <strong>مراجعات بیمار</strong>
+  </Tooltip>
+);
+const tooltip4 = (
+  <Tooltip id="tooltip">
+    <strong>حذف</strong>
+  </Tooltip>
+);
+const tooltip5 = (
+  <Tooltip id="tooltip">
+    <strong>افزودن ضمیمه</strong>
+  </Tooltip>
+);
+
 
 
 const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
-  const patients = useGetPatientDocuments()
+  const patientDocuments = useGetPatientDocuments()
   const deletePatientDocument = useDeletePatientDocument()
   const [open, setIsOpen] = useState<boolean>(false)
   const [openAttach, setIsOpenAttach] = useState<boolean>(false)
@@ -28,8 +55,8 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
   const [results, setResults] = useState<any[]>([]);
 
   useEffect(() => {
-    setResults(patients?.data?.data)
-  }, [patients?.data?.data])
+    setResults(patientDocuments?.data?.data)
+  }, [patientDocuments?.data?.data])
   
   const handleOpenModal = (item: IPatientDocument) => {
     setItems(item)
@@ -47,32 +74,23 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
     }
     deletePatientDocument.mutate(formData, {
       onSuccess: (response) => {
-        patients.refetch()
-        toast.success(response.message);
-      }
-    })
-  }
-  const handleUploadDocument = (patientId: any, documentId: any) => {
-    const formData = {
-      patientId, 
-      documentId
-    }
-    deletePatientDocument.mutate(formData, {
-      onSuccess: (response) => {
-        patients.refetch()
-        toast.success(response.message);
+        if(response.success) {
+          toast.success(response.message);
+          patientDocuments.refetch()
+        }
       }
     })
   }
 
-  if (patients.isLoading) {
+  if (patientDocuments.isLoading) {
     return <div>درحال بارگزاری ...</div>
   }
 
 
   return (
     <>
-    {deletePatientDocument.isLoading && <div>درحال بارگزاری ...</div>}
+      {deletePatientDocument.isLoading && <Backdrop loading={deletePatientDocument.isLoading} />}
+
       <div className={`card ${className}`}>
         <div className='card-header border-0 pt-5'>
           <h3 className='card-title align-items-start flex-column'>
@@ -92,7 +110,7 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
               "patient.lastName",
               "document.title",
             ]}
-            data={patients?.data?.data}
+            data={patientDocuments?.data?.data}
             setResults={setResults}
           />
         </div>
@@ -144,27 +162,35 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
                     </td>
                     <td className='!w-full'>
                       <div className='d-flex gap-x-4 flex-shrink-0 items-center '>
-
-                        <Link to={`/dashboard/${item?.document?.id === 1 ? "midWirfyFormPrint" : item?.document?.id === 2 ? "skinFormPrint" : item?.document?.id === 2 ? "facialFormPrint" : "lazerFormPrint"}/${item.patient?.id}/${item?.document?.id}`} className=''>
-                          <img className="!bg-white" src={toAbsoluteUrl('/media/logos/print-icon.png')} width={24} height={24} />
-                        </Link>
-                        
-                        
-                        
-                        <button onClick={() => handleOpenModal(item)} className='bg-violet-500 px-4 py-2 rounded-md text-white'>
-                          <span>ثبت مراجعات</span>
-                        </button>
-                        <Link to={`/dashboard/patient/${item.patient?.id}/document/${item.document?.id}`}>
-                          <button className='bg-green-500 px-4 py-2 rounded-md'>
-                            مراجعات بیمار
+                        <OverlayTrigger placement="top" overlay={tooltip1}>
+                          <Link to={`/dashboard/${item?.document?.id === 1 ? "midWirfyFormPrint" : item?.document?.id === 2 ? "skinFormPrint" : item?.document?.id === 2 ? "facialFormPrint" : "lazerFormPrint"}/${item.patient?.id}/${item?.document?.id}`} className=''>
+                            <button className='bg-indigo-500 px-4 py-2 rounded-md text-white w-max'>
+                              <img src={toAbsoluteUrl('/media/logos/print-icon.png')} width={24} height={24} />
+                            </button>                        
+                          </Link>
+                        </OverlayTrigger>
+                        <OverlayTrigger placement="top" overlay={tooltip2}>
+                          <button onClick={() => handleOpenModal(item)} className='bg-violet-500 px-4 py-2 rounded-md text-white w-max'>
+                          <img src={toAbsoluteUrl('/media/icons/duotune/art/art005.svg')} width={20} height={20} />
                           </button>
-                        </Link>
-                        <button onClick={() => handleDeletePatientDocument(item.patient?.id, item.document?.id)} className='bg-red-500 px-4 py-2 rounded-md text-white'>
-                          <span>حذف</span>
-                        </button>
-                        <button onClick={() => handleOpenAttachModal(item)} className='bg-blue-500 px-4 py-2 rounded-md text-white'>
-                          <span>افزودن ضمیمه</span>
-                        </button>
+                        </OverlayTrigger>
+                        <OverlayTrigger placement="top" overlay={tooltip3}>
+                          <Link to={`/dashboard/patient/${item.patient?.id}/document/${item.document?.id}`}>
+                            <button className='bg-green-500 px-4 py-2 rounded-md w-max'>
+                            <img src={toAbsoluteUrl('/media/icons/duotune/art/art008.svg')} width={20} height={20} />
+                            </button>
+                          </Link>
+                        </OverlayTrigger>
+                        <OverlayTrigger placement="top" overlay={tooltip4}>
+                          <button onClick={() => handleDeletePatientDocument(item.patient?.id, item.document?.id)} className='bg-red-500 px-4 py-2 rounded-md text-white w-max'>
+                            <img src={toAbsoluteUrl('/media/icons/duotune/art/art003.svg')} width={20} height={20} />
+                          </button>
+                        </OverlayTrigger>
+                        <OverlayTrigger placement="top" overlay={tooltip5}>
+                          <button onClick={() => handleOpenAttachModal(item)} className='bg-blue-500 px-4 py-2 rounded-md text-white w-max'>
+                            <img src={toAbsoluteUrl('/media/icons/duotune/art/art004.svg')} width={20} height={20} />
+                          </button>
+                        </OverlayTrigger>
 
                       </div>
                     </td>

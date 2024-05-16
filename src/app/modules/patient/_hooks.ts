@@ -16,9 +16,9 @@ export const usePutPatient = () => {
 
 export const useGetPatients = () => {
     return useQuery(['patients'], () => api.getPatients(), {
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-        refetchIntervalInBackground: false
+        // refetchOnMount: false,
+        // refetchOnWindowFocus: false,
+        // refetchIntervalInBackground: false
     })
 }
 export const useGetPatient = (id: number) => {
@@ -92,9 +92,9 @@ export const usePostPatientDocument = () => {
 
 export const useGetPatientDocuments = () => {
     return useQuery(['patientDocuments'], () => api.getPatientDocuments(), {
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-        refetchIntervalInBackground: false
+        // refetchOnMount: false,
+        // refetchOnWindowFocus: false,
+        // refetchIntervalInBackground: false
     })
 }
 
