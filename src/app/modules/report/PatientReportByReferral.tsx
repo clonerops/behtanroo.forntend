@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useGetDocuments } from '../patient/_hooks'
 import { IPatient } from '../patient/_models'
 import { Form, Formik } from 'formik'
@@ -12,6 +12,7 @@ import MultiDatepicker, { DateObject } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { toAbsoluteUrl } from '../../../_cloner/helpers'
+import FuzzySearch from '../../../_cloner/helpers/Fuse'
 
 const columns = [
   { id: 8, title: "شماره بیمار" },
@@ -39,6 +40,12 @@ const initialValues = {
 const PatientReportByReferral = () => {
   const patients = useGetPatientReportByReferral()
   const documents = useGetDocuments()
+  const [results, setResults] = useState<any[]>([]);
+
+  useEffect(() => {
+    setResults(patients?.data?.data)
+  }, [patients?.data?.data])
+  
 
 
   const downloadExcel = useDownloadExportExcelPatientReportByReferral()
@@ -84,6 +91,7 @@ const PatientReportByReferral = () => {
                     errors={errors.documentId}
                     name={"documentId"}
                     title="نوع پرونده"
+                    isAll
                   ></Select>
                   <div className='flex flex-col'>
                     <Inputs
@@ -157,6 +165,29 @@ const PatientReportByReferral = () => {
           {/* end::Header */}
           {/* begin::Body */}
           <div className='card-body py-3'>
+          <div className='my-8 w-[50%] '>
+              <FuzzySearch
+                keys={[
+                  // "documentCode",
+                  // "patient.patientCode",
+                  // "patient.firstName",
+                  // "patient.lastName",
+                  "document.title",
+                  "patientCode",
+                  "documentCode",
+                  "firstName",
+                  "lastName",
+                  "nationalCode",
+                  "mobile",
+                  "mobile2",
+                  "tel",
+                  "address",
+                ]}
+                data={patients?.data?.data}
+                setResults={setResults}
+              />
+            </div>
+
             {/* begin::Table container */}
             <div className='table-responsive'>
               {/* begin::Table */}
@@ -173,7 +204,7 @@ const PatientReportByReferral = () => {
                 {/* end::Table head */}
                 {/* begin::Table body */}
                 <tbody>
-                  {patients?.data?.data?.map((item: any) => (
+                  {results?.map((item: any) => (
                   <tr className='odd:bg-[#ECF5FF] p-0 text-center'>
                     <td className="p-2">
                         <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>

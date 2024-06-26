@@ -153,6 +153,29 @@ const PatientReport = () => {
             {/* end::Header */}
             {/* begin::Body */}
             <div className='card-body py-3'>
+            <div className='my-8 w-[50%] '>
+              <FuzzySearch
+                keys={[
+                  // "documentCode",
+                  // "patient.patientCode",
+                  // "patient.firstName",
+                  // "patient.lastName",
+                  "document.title",
+                  "patientCode",
+                  "documentCode",
+                  "firstName",
+                  "lastName",
+                  "nationalCode",
+                  "mobile",
+                  "mobile2",
+                  "tel",
+                  "address",
+                ]}
+                data={patients?.data?.data}
+                setResults={setResults}
+              />
+            </div>
+
               {/* begin::Table container */}
               <div className='table-responsive'>
                 {/* begin::Table */}

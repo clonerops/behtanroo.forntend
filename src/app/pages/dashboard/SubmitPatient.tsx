@@ -279,7 +279,7 @@ const SubmitPatient = () => {
                                                 type="submit"
                                                 id="kt_sign_in_submit"
                                                 className="btn btn-primary"
-                                                disabled={postPatient.isLoading || postPatient?.data?.data}
+                                                disabled={postPatient?.data?.succeseded}
                                             >
                                                 {postPatient.isLoading ? (
                                                     <span
