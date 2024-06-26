@@ -17,6 +17,13 @@ export interface IPatient {
     maritalStatus: number
     document?: any
 }
+export interface IDoctor {
+    id?: number
+    firstName: string
+    lastName: string
+    mobile: string
+    description?: any
+}
 
 export interface IReferral {
     id: string,

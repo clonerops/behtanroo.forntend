@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { IPatient, IPatientDocument, IReferral } from "./_models"
+import { IDoctor, IPatient, IPatientDocument, IReferral } from "./_models"
 
 import * as api from './_requests'
 
@@ -115,5 +115,27 @@ export const useDeletePatientDocument = () => {
 export const useUploadPatientDocumentFile = () => {
     return useMutation((formData: IPatientDocument) => {
         return api.uploadPatientDocumentFile(formData)
+    })
+}
+
+
+//Doctors
+export const usePostDoctor = () => {
+    return useMutation((formData: IDoctor) => {
+        return api.postDoctor(formData)
+    })
+}
+
+export const useGetDoctors = () => {
+    return useQuery(['doctors'], () => api.getDoctors(), {
+        // refetchOnMount: false,
+        // refetchOnWindowFocus: false,
+        // refetchIntervalInBackground: false
+    })
+}
+
+export const useDeleteDoctor = () => {
+    return useMutation((id: number) => {
+        return api.deleteDoctor(id)
     })
 }

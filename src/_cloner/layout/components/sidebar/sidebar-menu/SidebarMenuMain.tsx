@@ -27,6 +27,13 @@ const SidebarMenuMain = () => {
         title={'لیست پرونده ها'}
         fontIcon='bi-app-indicator'
       />
+      <SidebarMenuItem
+        to='/dashboard/doctorManagment'
+        icon='/media/icons/duotune/art/art001.svg'
+        title={'مدیریت پزشکان'}
+        fontIcon='bi-app-indicator'
+      />
+
       <SidebarMenuItemWithSub
         to='/crafted/pages'
         title='گزارشات'

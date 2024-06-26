@@ -13,6 +13,7 @@ import SkinForm from '../modules/patient/SkinFormPrint'
 import LazerFormPrint from '../modules/patient/LazerFormPrint'
 import MidWirfyFormPrint from '../modules/patient/MidWirfyFormPrint'
 import FacialFormPrint from '../modules/patient/FacialFormPrint'
+import DoctorManagment from '../pages/dashboard/DoctorManagment'
 
 const PrivateRoutes = () => {
 
@@ -24,6 +25,7 @@ const PrivateRoutes = () => {
         {/* Pages */}
         <Route path='dashboard' element={<Dashboard />} />
         <Route path='dashboard/patient' element={<SubmitPatient />} />
+        <Route path='dashboard/doctorManagment' element={<DoctorManagment />} />
         <Route path='dashboard/patient/:id' element={<PatientDetail />} />
         <Route path='dashboard/patientList' element={<PatientLists />} />
         <Route path='dashboard/patient/:patientId/document/:documentId' element={<Referrals />} />

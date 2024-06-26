@@ -1,6 +1,6 @@
 import { DownloadExeclFile } from "../../../_cloner/helpers/DownloadFiles";
 import { http, httpFormData } from "../../../_cloner/helpers/axiosConfig";
-import { IPatient, IPatientDocument, IReferral } from "./_models";
+import { IDoctor, IPatient, IPatientDocument, IReferral } from "./_models";
 
 export const postPatient = async (formData: IPatient) => {
     try {
@@ -117,4 +117,29 @@ export const uploadPatientDocumentFile = async (formData: IPatientDocument) => {
         if(error instanceof Error)
             return error
     }
+}
+
+
+//Doctors
+export const postDoctor = async (formData: IDoctor) => {
+    try {
+        const {data} = await http.post('/doctor/create', JSON.stringify(formData))
+        return data        
+    } catch (error: any) {
+            return error.response
+    }
+}
+
+export const deleteDoctor = async (id: number) => {
+    try {
+        const {data} = await http.delete(`/doctor/${id}`)
+        return data        
+    } catch (error: any) {
+            return error.response
+    }
+}
+
+export const getDoctors = async () => {
+    const {data} = await http.get('/doctor/lists');
+    return data
 }
