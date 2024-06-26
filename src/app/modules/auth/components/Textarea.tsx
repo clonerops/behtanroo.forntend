@@ -5,6 +5,9 @@ const Textarea = (props: any) => {
         <div className="fv-row mb-8">
             <label className="form-label fs-6 fw-bolder text-dark">
                 {props.title}
+                {props.isRequired &&
+                    <i className="text-red-500">*</i>
+                }
             </label>
             <textarea
                 placeholder={props.title}

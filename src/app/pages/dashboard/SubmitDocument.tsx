@@ -46,12 +46,13 @@ const SubmitDocument = (props: Props) => {
             },
         });
     };
+    console.log(patientDocument?.data?.data)
     return (
         <>
             {patientDocument.isLoading && <Backdrop loading={patientDocument.isLoading} />}
             <Modal isOpen={props.isOpen} onClose={() => props.setIsOpen(false)}>
-                <div className="flex flex-row justify-around">
-                    <div className="flex flex-row m-16">
+                <div className="grid grid-cols-1 lg:grid-cols-3 w-full overflow-hidden">
+                    <div className="flex flex-row w-full lg:mx-16 lg:my-8">
                         <div className="font-bold text-xl text-gray-500">
                             شماره بیمار:{" "}
                         </div>
@@ -59,7 +60,7 @@ const SubmitDocument = (props: Props) => {
                             {props?.item?.patientCode}
                         </div>
                     </div>
-                    <div className="flex flex-row m-16">
+                    <div className="flex flex-row w-full lg:mx-16 lg:my-8">
                         <div className="font-bold text-xl text-gray-500">
                             نام و نام خانوادگی:{" "}
                         </div>
@@ -67,7 +68,7 @@ const SubmitDocument = (props: Props) => {
                             {props?.item?.firstName} {props?.item?.lastName}
                         </div>
                     </div>
-                    <div className="flex flex-row m-16">
+                    <div className="flex flex-row w-full lg:mx-16 lg:my-8">
                         <div className="font-bold text-xl text-gray-500">
                             کدملی:{" "}
                         </div>
@@ -75,6 +76,16 @@ const SubmitDocument = (props: Props) => {
                             {props?.item?.nationalCode}
                         </div>
                     </div>
+                    {patientDocument?.data?.success &&
+                        <div className="flex flex-row lg:mx-16 lg:mt-2 lg:mb-2">
+                            <div className="font-bold text-xl text-gray-500">
+                                شماره پرونده ثبت شده:{" "}
+                            </div>
+                            <div className="px-8 font-bold text-2xl">
+                                {patientDocument?.data?.data?.documentCode}
+                            </div>
+                        </div>
+                    }
                 </div>
                 <Formik initialValues={initialValues} onSubmit={onSubmit}>
                     {({ getFieldProps, touched, errors }) => {

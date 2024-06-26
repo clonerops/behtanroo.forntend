@@ -1,4 +1,5 @@
 import React, {FC} from 'react'
+import { KTSVG } from './KTSVG'
 
 interface IProps {
   isOpen: boolean
@@ -29,16 +30,24 @@ const Modal: FC<IProps> = ({isOpen, onClose, className, reqular, children}) => {
             aria-modal='true'
             aria-labelledby='modal-headline'
           >
+          <div className='flex justify-end items-end cursor-pointer' onClick={onClose}>
+            <KTSVG path='/media/icons/duotune/arrows/arr061.svg' className='svg-icon-1 text-red-500 px-8 py-4' />
+          </div>
+
             {children}
           </div>
         ) : (
           <div
-            className={`inline-block z-[200] h-[46rem] transform overflow-auto rounded-lg bg-white text-right align-bottom shadow-xl transition-all sm:my-8 sm:w-[80%] sm:align-middle ${className}`}
+            className={`relative inline-block z-[200] h-[46rem] transform overflow-auto rounded-lg bg-white text-right align-bottom shadow-xl transition-all sm:my-8 sm:w-[80%] sm:align-middle ${className}`}
             // className={`inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle ${className}`}
             role='dialog'
             aria-modal='true'
             aria-labelledby='modal-headline'
           >
+          <div className='flex justify-end items-end cursor-pointer' onClick={onClose}>
+            <KTSVG path='/media/icons/duotune/arrows/arr061.svg' className='svg-icon-1 text-red-500 px-8 py-4' />
+          </div>
+
             {children}
           </div>
         )}

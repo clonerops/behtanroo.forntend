@@ -61,6 +61,12 @@ const SubmitPatient = () => {
     return (
         <div>
             <Card6 image="" title="ثبت اطلاعات بیمار">
+                {postPatient?.data?.succeseded &&
+                    <div className="pb-8 flex flex-row gap-x-4">
+                        <span className="text-2xl font-bold text-gray-500">شماره بیمار: </span>
+                        <span className="text-4xl font-bold">{postPatient?.data?.data?.patientCode}</span>
+                    </div>
+                }
                 <div className="grid md:grid-cols-3 grid-cols-1 gap-x-8">
                     <div className="col-span-2">
                         <Formik
@@ -85,6 +91,7 @@ const SubmitPatient = () => {
                                             errors={errors.firstName}
                                             name={"firstName"}
                                             title="نام"
+                                            isRequired
                                         ></Inputs>
                                         <Inputs
                                             type="text"
@@ -94,6 +101,7 @@ const SubmitPatient = () => {
                                             errors={errors.lastName}
                                             name={"lastName"}
                                             title="نام خانوادگی"
+                                            isRequired
                                         ></Inputs>
                                         <Inputs
                                             type="text"
@@ -104,6 +112,7 @@ const SubmitPatient = () => {
                                             maxLength={10}
                                             name={"nationalCode"}
                                             title="کدملی"
+                                            isRequired
                                         ></Inputs>
                                         <Inputs
                                             type="text"
@@ -114,6 +123,7 @@ const SubmitPatient = () => {
                                             maxLength={11}
                                             name={"mobile"}
                                             title="تلفن همراه"
+                                            isRequired
                                         ></Inputs>
                                         <Inputs
                                             type="text"
@@ -134,10 +144,12 @@ const SubmitPatient = () => {
                                             name={"tel"}
                                             maxLength={16}
                                             title="تلفن منزل"
+                                            isRequired
                                         ></Inputs>
                                         <div className="flex flex-col mb-8">
                                             <label className="form-label fs-6 fw-bolder text-dark">
                                                 تاریخ تولد
+                                                <i className="text-red-500">*</i>
                                             </label>
                                             <MultiDatepicker
                                                 {...getFieldProps("birthDate")}
@@ -192,6 +204,7 @@ const SubmitPatient = () => {
                                             errors={errors.job}
                                             name={"job"}
                                             title="شغل"
+                                            isRequired
                                         ></Inputs>
                                         <Inputs
                                             type="text"
@@ -201,6 +214,7 @@ const SubmitPatient = () => {
                                             errors={errors.education}
                                             name={"education"}
                                             title="تحصیلات"
+                                            isRequired
                                         ></Inputs>
                                         <Inputs
                                             type="text"
@@ -210,6 +224,7 @@ const SubmitPatient = () => {
                                             errors={errors.representative}
                                             name={"representative"}
                                             title="معرف"
+                                            isRequired
                                         ></Inputs>
                                         <Select
                                             type="text"
@@ -245,6 +260,7 @@ const SubmitPatient = () => {
                                             errors={errors.address}
                                             name={"address"}
                                             title="آدرس"
+                                            isRequired
                                         ></Textarea>
                                         <div className="col-span-2">
                                             <Textarea
