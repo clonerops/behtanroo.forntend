@@ -55,6 +55,7 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
   const [openAttach, setIsOpenAttach] = useState<boolean>(false)
   const [items, setItems] = useState<any>()
   const [results, setResults] = useState<any[]>([]);
+  console.log("results", results)
 
   useEffect(() => {
     setResults(patientDocuments?.data?.data)

@@ -112,19 +112,28 @@ const AttachDocument = (props: Props) => {
         <>
             {uploadFile.isLoading && <Backdrop loading={uploadFile.isLoading} />}
             <Modal isOpen={props.isOpen} onClose={() => props.setIsOpen(false)}>
-                <div className="flex flex-row justify-around">
-                    <div className="flex flex-row m-16">
+                <div className="grid grid-cols-1 lg:grid-cols-3 w-full overflow-hidden">
+                    <div className="flex flex-row w-full lg:mx-16 lg:my-8">
                             <div className="font-bold text-xl text-gray-500">شماره بیمار: </div>
                             <div className="px-8 font-bold text-2xl">{props?.item?.patient?.patientCode}</div>
                     </div>
-                    <div className="flex flex-row m-16">
+                    <div className="flex flex-row w-full lg:mx-16 lg:my-8">
                             <div className="font-bold text-xl text-gray-500">نام و نام خانوادگی: </div>
                             <div className="px-8 font-bold text-2xl">{props?.item?.patient?.firstName} {props?.item?.patient?.lastName}</div>
                     </div>
-                    <div className="flex flex-row m-16">
+                    <div className="flex flex-row w-full lg:mx-16 lg:my-8">
                             <div className="font-bold text-xl text-gray-500">کدملی: </div>
                             <div className="px-8 font-bold text-2xl">{props?.item?.patient?.nationalCode}</div>
                     </div>
+                    <div className="flex flex-row w-full lg:mx-16 lg:my-8">
+                            <div className="font-bold text-xl text-gray-500">نوع پرونده: </div>
+                            <div className="px-8 font-bold text-2xl">{props?.item?.document?.title}</div>
+                    </div>
+                    <div className="flex flex-row w-full lg:mx-16 lg:my-8">
+                            <div className="font-bold text-xl text-gray-500">شماره پرونده: </div>
+                            <div className="px-8 font-bold text-2xl">{props?.item?.documentCode}</div>
+                    </div>
+
                 </div>
                 <Formik initialValues={initialValues} onSubmit={onSubmit}>
                     {({  }) => {
