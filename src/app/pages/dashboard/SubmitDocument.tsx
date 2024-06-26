@@ -5,16 +5,19 @@ import Textarea from "../../modules/auth/components/Textarea";
 import { IPatient } from "../../modules/patient/_models";
 import { Form, Formik } from "formik";
 import {
+    useGetDoctors,
     useGetDocuments,
     usePostPatientDocument,
 } from "../../modules/patient/_hooks";
 import Select from "../../modules/auth/components/Select";
 import { toast } from "react-toastify";
 import Backdrop from "../../../_cloner/helpers/components/Backdrop";
+import SelectDoctor from "../../modules/auth/components/SelectDoctor";
 
 const initialValues = {
     createdAt: moment(new Date(Date.now())).format("jYYYY/jMM/jDD"),
     documentId: "1",
+    doctorId:"1",
     description: "",
 };
 
@@ -26,11 +29,13 @@ type Props = {
 
 const SubmitDocument = (props: Props) => {
     const documents = useGetDocuments();
+    const doctors = useGetDoctors();
     const patientDocument = usePostPatientDocument();
     const onSubmit = async (values: any) => {
         const formData = {
             patientId: props.item.id ? +props.item.id : 0,
             documentId: +values.documentId,
+            doctorId: +values.doctorId,
             description: values.description,
         };
         patientDocument.mutate(formData, {
@@ -46,7 +51,6 @@ const SubmitDocument = (props: Props) => {
             },
         });
     };
-    console.log(patientDocument?.data?.data)
     return (
         <>
             {patientDocument.isLoading && <Backdrop loading={patientDocument.isLoading} />}
@@ -90,7 +94,7 @@ const SubmitDocument = (props: Props) => {
                 <Formik initialValues={initialValues} onSubmit={onSubmit}>
                     {({ getFieldProps, touched, errors }) => {
                         return (
-                            <Form className="grid grid-cols-2 gap-x-8 mx-16 my-8">
+                            <Form className="grid grid-cols-3 gap-x-8 mx-16 my-8">
                                 <Select
                                     type="text"
                                     login={true}
@@ -101,6 +105,17 @@ const SubmitDocument = (props: Props) => {
                                     name={"documentId"}
                                     title="نوع پرونده"
                                 ></Select>
+                                <SelectDoctor
+                                    type="text"
+                                    login={true}
+                                    options={doctors?.data}
+                                    getFieldProps={getFieldProps}
+                                    touched={touched.doctorId}
+                                    errors={errors.doctorId}
+                                    name={"doctorId"}
+                                    title="پزشک معالج"
+                                ></SelectDoctor>
+
                                 <Inputs
                                     type="text"
                                     login={true}
@@ -109,7 +124,7 @@ const SubmitDocument = (props: Props) => {
                                     disabled
                                     title="تاریخ ایجاد پرونده"
                                 ></Inputs>
-                                <div className="col-span-2">
+                                <div className="col-span-3">
                                     <Textarea
                                         type="text"
                                         login={true}

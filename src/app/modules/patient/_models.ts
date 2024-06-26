@@ -47,4 +47,5 @@ export interface IPatientDocument {
     image?: any
     patient?: IPatient
     document?: IDocument
+    doctor?: IDoctor
 }

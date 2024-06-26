@@ -116,6 +116,8 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
               "patient.patientCode",
               "patient.firstName",
               "patient.lastName",
+              "doctor.firstName",
+              "doctor.lastName",
               "document.title",
             ]}
             data={patientDocuments?.data?.data}
@@ -166,6 +168,11 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
                     <td>
                       <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
                         {item.document?.title}
+                      </a>
+                    </td>
+                    <td>
+                      <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                        {item.doctor?.firstName} {item.doctor?.lastName}
                       </a>
                     </td>
                     <td className='!w-full'>
