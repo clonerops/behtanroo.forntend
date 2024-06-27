@@ -16,7 +16,7 @@ const initialValues = {
 };
 
 const columns = [
-    {id: 9, title: "عملیات"},
+    // {id: 9, title: "عملیات"},
     {id: 1, title: "نام"},
     {id: 2, title: "نام خانوادگی"},
     {id: 4, title: "شماره همراه"},
@@ -171,7 +171,7 @@ const DoctorManagment = () => {
                   <tbody>
                     {doctorsTools?.data?.map((item: IDoctor) => (
                       <tr className='odd:bg-[#ECF5FF] text-center p-0'>
-                        <td className='!w-[20px] py-0 px-2'>
+                        {/* <td className='!w-[20px] py-0 px-2'>
                           <div className='flex justify-center items-center gap-x-4 flex-shrink-0 '>
                             <OverlayTrigger placement="top" overlay={tooltip3}>
                               <button onClick={() => handleOpenDeleteModal(item)} className='bg-red-500 px-4 py-2 rounded-md text-white'>
@@ -179,7 +179,7 @@ const DoctorManagment = () => {
                               </button>
                               </OverlayTrigger>
                           </div>
-                        </td>
+                        </td> */}
                         <td className="p-0">
                           <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
                             {item.firstName}
