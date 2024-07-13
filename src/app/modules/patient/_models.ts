@@ -2,6 +2,7 @@ export interface IPatient {
     id?: number
     patientCode?: number,
     documentCode?: number,
+    isDeleted?: boolean,
     firstName: string
     lastName: string
     nationalCode: string

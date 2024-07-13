@@ -112,7 +112,6 @@ const SubmitPatient = () => {
                                             maxLength={10}
                                             name={"nationalCode"}
                                             title="کدملی"
-                                            isRequired
                                         ></Inputs>
                                         <Inputs
                                             type="text"
@@ -144,7 +143,6 @@ const SubmitPatient = () => {
                                             name={"tel"}
                                             maxLength={16}
                                             title="تلفن منزل"
-                                            isRequired
                                         ></Inputs>
                                         <div className="flex flex-col mb-8">
                                             <label className="form-label fs-6 fw-bolder text-dark">

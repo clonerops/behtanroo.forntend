@@ -39,7 +39,7 @@ type Props = {
     isOpen: boolean;
     setIsOpen: any;
     item: IPatient;
-    refetch: any;
+    // refetch: any;
 };
 
 const PatientEdit = (props: Props) => {
@@ -58,7 +58,7 @@ const PatientEdit = (props: Props) => {
                     toast.error(response.data.message);
                 } else {
                     toast.success("اطلاعات بیمار با موفقیت ویرایش گردید");
-                    props.refetch();
+                    // props.refetch();
                     props.setIsOpen(false);
                 }
             },

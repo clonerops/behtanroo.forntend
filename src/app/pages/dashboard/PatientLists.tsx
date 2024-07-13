@@ -6,6 +6,7 @@ const columns = [
     {id: 8, title: "شماره بیمار"},
     {id: 1, title: "نام"},
     {id: 2, title: "نام خانوادگی"},
+    {id: 2, title: "وضعیت"},
     {id: 10, title: "جنسیت"},
     {id: 3, title: "کدملی"},
     {id: 4, title: "شماره همراه"},

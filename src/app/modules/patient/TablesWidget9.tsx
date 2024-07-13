@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react'
-import { useDeletePatient, useDownloadExportExcel, useGetPatients } from './_hooks'
+import { useDeletePatient, useDownloadExportExcel, useGetPatients, useGetPatientsByMutation } from './_hooks'
 import { IPatient } from './_models'
 import FuzzySearch from '../../../_cloner/helpers/Fuse'
 import SubmitDocument from '../../pages/dashboard/SubmitDocument'
@@ -10,6 +10,7 @@ import { toAbsoluteUrl } from '../../../_cloner/helpers'
 import moment from 'moment-jalaali'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import Modal from '../../../_cloner/helpers/components/Modal'
+import RadioGroupActiveOrNot from '../../../_cloner/helpers/components/RadioGroupActiveOrNot'
 
 type Props = {
   className: string
@@ -35,20 +36,26 @@ const tooltip3 = (
 
 
 const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
-  const patients = useGetPatients()
+  const patients = useGetPatientsByMutation()
   const downloadExcel = useDownloadExportExcel()
   const deletePatient = useDeletePatient()
   const [open, setIsOpen] = useState<boolean>(false)
   const [editOpen, setIsEditOpen] = useState<boolean>(false)
   const [isOpenDelete, setIsOpenDelete] = useState<boolean>(false)
+  const [radioSelect, setRadioSelect] = useState<number>(2)
   const [items, setItems] = useState<any>()
   const [editItems, setEditItems] = useState<any>()
   const [results, setResults] = useState<any[]>([]);
 
 
   useEffect(() => {
-    setResults(patients?.data)
-  }, [patients?.data])
+    patients.mutate(2, {
+      onSuccess: (response) => {
+        console.log(response)
+        setResults(response)
+      }
+    })
+  }, [])
 
   const handleOpenModal = (item: IPatient) => {
     setItems(item)
@@ -72,21 +79,35 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
     deletePatient.mutate(id, {
       onSuccess: (res) => {
         if(res.success) {
-          patients.refetch()
           setIsOpenDelete(false)
         }
       }
     })
   }
 
-  if (patients.isLoading) {
-    return <div>درحال بارگزاری ...</div>
-  }
+  const onChangeRadioSelect = (event: any) => {
+    setRadioSelect(event.target.value);
+
+    patients.mutate(event.target.value, {
+      onSuccess: (response) => {
+        setResults(response)
+      }
+    })
+};
+
+console.log(radioSelect)
+
+
+
+  // if (patients.isLoading) {
+  //   return <div>درحال بارگزاری ...</div>
+  // }
 
   return (
     <>
       {downloadExcel.isLoading && <Backdrop loading={downloadExcel.isLoading} />}
       {deletePatient.isLoading && <Backdrop loading={deletePatient.isLoading} />}
+      {patients.isLoading && <Backdrop loading={patients.isLoading} />}
       <div className={`card ${className}`}>
       <div className='grid grid-cols-1 lg:grid-cols-4 gap-x-4'>
         {/* <div>
@@ -131,6 +152,14 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
             {/* end::Header */}
             {/* begin::Body */}
             <div className='card-body py-3'>
+            <div className="my-4 w-[50%]">
+              <RadioGroupActiveOrNot
+                  onChange={onChangeRadioSelect}
+                  id="patientList"
+                  key="patientList"
+              />
+            </div>
+
               {/* begin::Table container */}
               <div className='table-responsive'>
                 {/* begin::Table */}
@@ -181,6 +210,11 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
                         <td className="p-0">
                           <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
                             {item.lastName}
+                          </a>
+                        </td>
+                        <td className="p-0">
+                          <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                            {item.isDeleted === false ?<span className='text-green-600'>فعال</span> : <span className='text-red-600'>غیرفعال</span>}
                           </a>
                         </td>
                         <td className="p-0">
@@ -248,7 +282,7 @@ const TablesWidget9: React.FC<Props> = ({ className, title, columns }) => {
               {/* end::Table container */}
             </div>
             <SubmitDocument item={items} isOpen={open} setIsOpen={setIsOpen} />
-            <PatientEdit item={editItems} isOpen={editOpen} setIsOpen={setIsEditOpen} refetch={patients.refetch} />
+            <PatientEdit item={editItems} isOpen={editOpen} setIsOpen={setIsEditOpen} />
             <Modal reqular isOpen={isOpenDelete} onClose={() => setIsOpenDelete(false)}>
               <div className='flex flex-col justify-center items-center py-16'>
                 <p className='font-bold text-red-500 text-lg py-8'>آیا از حذف مطمئن هستید؟</p>
