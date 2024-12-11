@@ -83,7 +83,7 @@ const LazerFormPrint = () => {
 
   return (
     <>
-        <button onClick={handlePrint}>پرینت</button>
+        <button className="bg-green-500 text-black px-16 py-2" onClick={handlePrint}>پرینت</button>
         <div ref={printComponentRef} style={{direction: "rtl"}}>
             <h2 className="text-center font-bold text-2xl">فرم رضایت انجام خدمات </h2>
             <span className="font-bold text-lg">تاریخ : .........</span>
@@ -162,7 +162,7 @@ const LazerFormPrint = () => {
                     <span className="font-bold">امضا متقاضی</span>
                 </div>
             </div>
-            <br />
+            {/* <br />
             <div className="mt-16">
                 <table className="!w-full !border-[1px] !border-black">
                     <thead>
@@ -247,7 +247,7 @@ const LazerFormPrint = () => {
                     </tr> 
                     </tbody>
                 </table>
-            </div>
+            </div> */}
 
         </div>
     </>

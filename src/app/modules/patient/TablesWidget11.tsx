@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react'
 import { KTSVG, toAbsoluteUrl } from '../../../_cloner/helpers'
-import { useDeletePatientDocument, useGetPatientDocuments, useGetPatients } from './_hooks'
+import { useDeletePatientDocument, useGetPatientDocuments, useGetPatientDocumentsByMutation, useGetPatients } from './_hooks'
 import { IPatient, IPatientDocument } from './_models'
 import SubmitReferral from '../../pages/dashboard/SubmitReferral'
 import { Link } from 'react-router-dom'
@@ -12,6 +12,7 @@ import Backdrop from '../../../_cloner/helpers/components/Backdrop'
 import AttachDocument from '../../pages/dashboard/AttachDocument'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import Modal from '../../../_cloner/helpers/components/Modal'
+import RadioGroupPatirntDocument from '../../../_cloner/helpers/components/RadioGroupPatientDocument'
 
 type Props = {
   className: string
@@ -48,18 +49,23 @@ const tooltip5 = (
 
 
 const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
-  const patientDocuments = useGetPatientDocuments()
+  const patientDocuments = useGetPatientDocumentsByMutation()
   const deletePatientDocument = useDeletePatientDocument()
   const [open, setIsOpen] = useState<boolean>(false)
   const [isOpenDelete, setIsOpenDelete] = useState<boolean>(false)
   const [openAttach, setIsOpenAttach] = useState<boolean>(false)
   const [items, setItems] = useState<any>()
   const [results, setResults] = useState<any[]>([]);
-  console.log("results", results)
+  const [radioSelect, setRadioSelect] = useState<number>(-1)
+
 
   useEffect(() => {
-    setResults(patientDocuments?.data?.data)
-  }, [patientDocuments?.data?.data])
+    patientDocuments.mutate(-1, {
+      onSuccess: (response) => {
+        setResults(response?.data)
+      }
+    })
+  }, [])
   
   const handleOpenModal = (item: IPatientDocument) => {
     setItems(item)
@@ -83,21 +89,28 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
       onSuccess: (response) => {
         if(response.success) {
           toast.success(response.message);
-          patientDocuments.refetch()
           setIsOpenDelete(false)
         }
       }
     })
   }
 
-  if (patientDocuments.isLoading) {
-    return <div>درحال بارگزاری ...</div>
-  }
+  const onChangeRadioSelect = (event: any) => {
+    setRadioSelect(event.target.value);
+
+    patientDocuments.mutate(event.target.value, {
+      onSuccess: (response) => {
+        setResults(response?.data)
+      }
+    })
+
+};
 
 
   return (
     <>
       {deletePatientDocument.isLoading && <Backdrop loading={deletePatientDocument.isLoading} />}
+      {patientDocuments.isLoading && <Backdrop loading={patientDocuments.isLoading} />}
 
       <div className={`card ${className}`}>
         <div className='card-header border-0 pt-5'>
@@ -127,6 +140,13 @@ const TablesWidget11: React.FC<Props> = ({ className, title, columns }) => {
         {/* end::Header */}
         {/* begin::Body */}
         <div className='card-body py-3'>
+        <div className="my-4">
+              <RadioGroupPatirntDocument
+                  onChange={onChangeRadioSelect}
+                  id="patientDocumentList"
+                  key="patientDocumentList"
+              />
+            </div>
           {/* begin::Table container */}
           <div className='table-responsive'>
             {/* begin::Table */}

@@ -7,13 +7,10 @@ import { toAbsoluteUrl } from "../../../_cloner/helpers";
 import { toast } from "react-toastify";
 import Select from "../../modules/auth/components/Select";
 import { createPatientValidations } from "../../modules/patient/_validation";
-import Backdrop from "../../../_cloner/helpers/components/Backdrop";
 import MultiDatepicker, { DateObject } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
-import moment from "moment-jalaali";
 import clsx from "clsx";
-import { Spinner } from "react-bootstrap";
 import SubmitDocument from "./SubmitDocument";
 import { useState } from "react";
 
@@ -112,7 +109,6 @@ const SubmitPatient = () => {
                                             maxLength={10}
                                             name={"nationalCode"}
                                             title="کدملی"
-                                            isRequired
                                         ></Inputs>
                                         <Inputs
                                             type="text"
@@ -144,7 +140,6 @@ const SubmitPatient = () => {
                                             name={"tel"}
                                             maxLength={16}
                                             title="تلفن منزل"
-                                            isRequired
                                         ></Inputs>
                                         <div className="flex flex-col mb-8">
                                             <label className="form-label fs-6 fw-bolder text-dark">
@@ -155,9 +150,10 @@ const SubmitPatient = () => {
                                                 {...getFieldProps("birthDate")}
                                                 id="birthDate"
                                                 name="birthDate"
+                                                onOpenPickNewDate={false}
                                                 locale={persian_fa}
                                                 calendar={persian}
-                                                value={values.birthDate}
+                                                value={values.birthDate || ""}
                                                 onChange={(
                                                     date:
                                                         | DateObject

@@ -13,11 +13,14 @@ import Select from "../../modules/auth/components/Select";
 import { toast } from "react-toastify";
 import Backdrop from "../../../_cloner/helpers/components/Backdrop";
 import SelectDoctor from "../../modules/auth/components/SelectDoctor";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { toAbsoluteUrl } from "../../../_cloner/helpers";
 
 const initialValues = {
     createdAt: moment(new Date(Date.now())).format("jYYYY/jMM/jDD"),
     documentId: "1",
-    doctorId:"1",
+    doctorId: "1",
     description: "",
 };
 
@@ -26,6 +29,14 @@ type Props = {
     setIsOpen: any;
     item: IPatient;
 };
+
+
+const tooltip1 = (
+    <Tooltip id="tooltip">
+        <strong>پرینت پرونده</strong>
+    </Tooltip>
+);
+
 
 const SubmitDocument = (props: Props) => {
     const documents = useGetDocuments();
@@ -40,10 +51,9 @@ const SubmitDocument = (props: Props) => {
         };
         patientDocument.mutate(formData, {
             onSuccess: (response) => {
-                console.log(response)
                 if (response.status === 400) {
                     toast.error(response.data.message);
-                } else if(response.status === 500) {
+                } else if (response.status === 500) {
                     toast.error("پرونده قبلا ایجاد شده است");
                 } else {
                     toast.success("پرونده جدید با موفقیت ثبت گردید");
@@ -51,6 +61,7 @@ const SubmitDocument = (props: Props) => {
             },
         });
     };
+    console.log(patientDocument.data)
     return (
         <>
             {patientDocument.isLoading && <Backdrop loading={patientDocument.isLoading} />}
@@ -80,13 +91,13 @@ const SubmitDocument = (props: Props) => {
                             {props?.item?.nationalCode}
                         </div>
                     </div>
-                    {patientDocument?.data?.success &&
+                    {patientDocument?.data?.data?.success &&
                         <div className="flex flex-row lg:mx-16 lg:mt-2 lg:mb-2">
                             <div className="font-bold text-xl text-gray-500">
                                 شماره پرونده ثبت شده:{" "}
                             </div>
                             <div className="px-8 font-bold text-2xl">
-                                {patientDocument?.data?.data?.documentCode}
+                                {patientDocument?.data?.data?.data?.documentCode}
                             </div>
                         </div>
                     }
@@ -145,6 +156,17 @@ const SubmitDocument = (props: Props) => {
                                         {/* {postReferral.isLoading ? "درحال پردازش" : "ثبت اطلاعات"} */}
                                     </button>
                                 </div>
+                                {patientDocument?.data?.success &&
+                                    <div>
+                                        <OverlayTrigger placement="top" overlay={tooltip1}>
+                                            <Link target="_blank" to={`/dashboard/${patientDocument?.data?.data?.documentId === 1 ? "midWirfyFormPrint" : patientDocument?.data?.data?.documentId === 2 ? "skinFormPrint" : patientDocument?.data?.data?.documentId === 2 ? "facialFormPrint" : "lazerFormPrint"}/${patientDocument?.data?.data?.patientId}/${patientDocument?.data?.data?.documentId}`} className=''>
+                                                <button className='bg-indigo-500 px-4 !py-2 rounded-md text-white w-max'>
+                                                    <span className="text-white px-16 !py-4">پرینت فرم</span>
+                                                </button>
+                                            </Link>
+                                        </OverlayTrigger>
+                                    </div>
+                                }
                             </Form>
                         );
                     }}

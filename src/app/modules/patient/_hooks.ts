@@ -21,6 +21,12 @@ export const useGetPatients = () => {
         // refetchIntervalInBackground: false
     })
 }
+export const useGetPatientsByMutation = () => {
+    return useMutation((isActive: number) => {
+        return api.getPatientsByMutation(isActive)
+    })
+
+}
 export const useGetPatient = (id: number) => {
     return useQuery(['patient', id], () => api.getPatient(id), {
         refetchOnMount: false,
@@ -97,6 +103,12 @@ export const useGetPatientDocuments = () => {
         // refetchIntervalInBackground: false
     })
 }
+export const useGetPatientDocumentsByMutation = () => {
+    return useMutation((documentId: number) => {
+        return api.getPatientDocumentsByMutation(documentId)
+    })
+
+}
 
 export const useGetPatientDocumentById = (patientId: any, documentId: any) => {
     return useQuery(['patientDocument', patientId, documentId], () => api.getPatientDocumentById(patientId, documentId), {
@@ -133,9 +145,25 @@ export const useGetDoctors = () => {
         // refetchIntervalInBackground: false
     })
 }
+export const usePutDoctor = () => {
+    return useMutation((formData: IDoctor) => {
+        return api.putDoctor(formData)
+    })
+}
 
 export const useDeleteDoctor = () => {
     return useMutation((id: number) => {
         return api.deleteDoctor(id)
     })
+}
+export const useGetDoctor = () => {
+    // return useQuery(['doctor', id], () => api.getDoctor(id), {
+    //     refetchOnMount: false,
+    //     refetchOnWindowFocus: false,
+    //     refetchIntervalInBackground: false
+    // })
+    return useMutation((id: number) => {
+        return api.getDoctor(id)
+    })
+
 }

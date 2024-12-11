@@ -32,6 +32,21 @@ export const getPatients = async () => {
     return data
 }
 
+
+export const getPatientsByMutation = async (isActive: number) => {
+    try {
+        const {data} = await http.get('/patient/lists', {
+        headers: {
+            isActive: isActive
+        }
+        });
+        return data
+    
+    } catch (error: any) {
+        return error.resposne        
+    }
+}
+
 export const getPatient = async (id: number) => {
     const {data} = await http.get(`/patient/${id}`);
     return data
@@ -98,6 +113,14 @@ export const getPatientDocuments = async () => {
     const {data} = await http.get(`/patientdocument`);
     return data
 }
+export const getPatientDocumentsByMutation = async (documentId: number) => {
+    const {data} = await http.get(`/patientdocument`, {
+        headers: {
+            documentId: documentId
+        }
+    });
+    return data
+}
 
 export const getPatientDocumentById = async (patientId: string, documentId: string) => {
     const {data} = await http.get(`/patientdocument/patient/${patientId}/document/${documentId}`);
@@ -142,4 +165,16 @@ export const deleteDoctor = async (id: number) => {
 export const getDoctors = async () => {
     const {data} = await http.get('/doctor/lists');
     return data
+}
+export const getDoctor = async (id: number) => {
+    const {data} = await http.get(`/doctor/${id}`);
+    return data
+}
+export const putDoctor = async (formData: IDoctor) => {
+    try {
+        const {data} = await http.put(`/doctor/${formData.id}/edit`, JSON.stringify(formData))
+        return data        
+    } catch (error: any) {
+            return error.response
+    }
 }
